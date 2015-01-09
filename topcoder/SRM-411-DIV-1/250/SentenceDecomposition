@@ -1,0 +1,90 @@
+// {{{ Boilerplate Code <--------------------------------------------------
+// vim:filetype=cpp:foldmethod=marker:foldmarker={{{,}}}
+
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <deque>
+#include <functional>
+#include <iomanip>
+#include <iostream>
+#include <list>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <set>
+#include <sstream>
+#include <stack>
+#include <utility>
+#include <vector>
+
+#define FOR(I,A,B) for(int I = (A); I < (B); ++I)
+#define REP(I,N)   FOR(I,0,N)
+#define ALL(A)     (A).begin(), (A).end()
+
+using namespace std;
+
+// }}}
+
+
+const int MAX_SIZE = 1000000;
+
+typedef map <string, vector <string> > VMAP;
+bool cmp (string a, string b) {
+    if (a.size() != b.size()) {
+        return a.size() < b.size();
+    }
+    return a < b;
+}
+class SentenceDecomposition
+{
+public:
+    VMAP wordMap;
+
+    void populateWordMap(vector<string> words) {
+        REP(i, words.size()) {
+            sort(ALL(words[i]));
+        }
+        sort(ALL(words), cmp);
+        REP(i, words.size()) {
+            bool found = false;
+            for (int j = 1; j < words[i].size(); j++) {
+                string key = words[i].substr(0, j);
+                VMAP::iterator it = wordMap.find(key);
+                if (it != wordMap.end()) {
+                    (it->second).push_back(words[i]);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                vector <string> s;
+                s.push_back(words[i]);
+                wordMap[words[i]] = s;
+            }
+        }
+    }
+
+    void printWordMap() {
+        for (VMAP::const_iterator it = wordMap.begin(); it != wordMap.end(); it++) {
+            cout << "Key = " << it->first << "\n";
+            REP(i, (it->second).size()) {
+                cout << (it->second)[i] << "  ";
+            }
+            cout << "\n";
+        }
+    }
+	int decompose(string sentence, vector <string> validWords)
+	{
+        populateWordMap(validWords);
+        printWordMap();
+		return int();
+	}
+};
+
+
+// Edited by VimCoder 0.3.5
+// http://github.com/chazmcgarvey/vimcoder

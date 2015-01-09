@@ -1,0 +1,71 @@
+// {{{ Boilerplate Code <--------------------------------------------------
+// vim:filetype=cpp:foldmethod=marker:foldmarker={{{,}}}
+
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <deque>
+#include <functional>
+#include <iomanip>
+#include <iostream>
+#include <list>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <set>
+#include <sstream>
+#include <stack>
+#include <utility>
+#include <vector>
+
+#define FOR(I,A,B) for(int I = (A); I < (B); ++I)
+#define REP(I,N)   FOR(I,0,N)
+#define ALL(A)     (A).begin(), (A).end()
+
+using namespace std;
+
+// }}}
+
+class ThePalindrome
+{
+public:
+	int find(string s)
+	{
+        int e = s.size();
+        FOR(i, e/2, e) {
+            bool match = true;
+        //    printf("Solving for char=%c\n", s[i]);
+            for(int d = 1; d < e - i; d++) {
+                if (i-d >= 0 && i+d < e && s[i+d] != s[i-d]) {
+                    match = false;
+                    break;
+                }
+            }
+            if (match) {
+          //      printf("match successful\n");
+                return 2*i + 1;
+            } 
+            match = true;
+            //printf("Solving for char=%c\n", s[i]);
+            for(int d = 1; d < e - i; d++) {
+                if (i-d >= 0 && i+d-1 < e && s[i+d-1] != s[i-d]) {
+                    match = false;
+                    break;
+                }
+            }
+            if (match) {
+              //  printf("match successful\n");
+                return 2*i;
+            } 
+            
+        }
+		return 2 * e;
+	}
+};
+
+
+// Edited by VimCoder 0.3.5
+// http://github.com/chazmcgarvey/vimcoder

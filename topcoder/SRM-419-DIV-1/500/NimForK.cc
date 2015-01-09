@@ -1,0 +1,146 @@
+
+// {{{ Boilerplate Code <--------------------------------------------------
+// vim:filetype=cpp:foldmethod=marker:foldmarker={{{,}}}
+
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <deque>
+#include <functional>
+#include <iomanip>
+#include <iostream>
+#include <list>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <set>
+#include <sstream>
+#include <stack>
+#include <utility>
+#include <vector>
+
+#define FOR(I,A,B) for(int I = (A); I < (B); ++I)
+#define REP(I,N)   FOR(I,0,N)
+#define ALL(A)     (A).begin(), (A).end()
+
+using namespace std;
+
+// }}}
+
+const int MAX_SIZE = 51;
+class NimForK
+{
+public:
+    int matrix[MAX_SIZE][MAX_SIZE];
+
+    vector<int> getMoves(string& s) {
+        stringstream ss(s);
+        vector<int> res;
+        int num;
+        while( ss >> num ) {
+            res.push_back(num);
+        }
+        return res;
+    }
+
+    void copyWithoutDuplication(vector<int>& dest, vector<int>& src) {
+        REP(p, src.size()) {
+            if (find(ALL(dest), src[p]) == dest.end()) {
+                dest.push_back(src[p]);
+            }
+        }
+    }
+
+    vector<int> updateArray(vector<int>& v, int k) {
+        vector<int> res;
+        REP(i, v.size()) {
+            res.push_back(v[i] % k + 1);
+        }
+        return res;
+    } 
+    
+    vector<int> prevResultAsVector(int row) {
+        vector<int> v;
+        REP(i, MAX_SIZE) {
+            if (matrix[row][i] != 0) {
+                v.push_back(matrix[row][i]);
+            }
+        }
+        return v;
+    }
+
+    void copyIntoArray(int row, vector<int>& v) {
+        REP(i, v.size()) {
+            matrix[row][i] = v[i];
+        }
+    }
+
+    void printMatrix(int n) {
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j <= n; j++) {
+                cout << matrix[i][j] << " ";
+            }
+            cout << "\n";
+        }
+    }
+
+    void init() {
+        REP(i, MAX_SIZE) {
+            REP(j, MAX_SIZE) {
+                matrix[i][j] = 0;
+            }
+        }
+    }
+	vector <int> winners(int n, int k, vector <string> moves)
+	{
+        if (n > moves.size())  {
+            vector <int> v;
+            return v;
+        }
+        init();
+        for(int i = 1; i <= n;i++) {
+            printf("i=%d\n", i);
+            vector<int> resMatch;
+            vector <int> resFailed;
+            bool perfect = false, partial = false;
+            vector<int> movesAsInt = getMoves(moves[i - 1]);
+            REP(j, movesAsInt.size()) {
+                printf("j=%d, move=%d\n", j, movesAsInt[j]);
+                if (movesAsInt[j] > i) continue;
+                vector<int> prevResult = prevResultAsVector(i - movesAsInt[j]);
+                if (i == movesAsInt[j] || (prevResult.size() == 1 && prevResult[0] == k)) {
+                    perfect = true;
+                    resMatch.clear();
+                    resMatch.push_back(1);
+                    printf("Perfect match found\n");
+                    break;
+                } else if (find(ALL(prevResult), k ) != prevResult.end()) {
+                    partial = true;
+                    copyWithoutDuplication(resMatch, prevResult);
+                    printf("Partial match found\n");
+                } else {
+                    copyWithoutDuplication(resFailed, prevResult);
+                    printf(" No match found\n");
+                }
+            }
+            
+            if (!perfect && !partial) {
+                 resFailed = updateArray(resFailed, k);
+                 copyIntoArray(i, resFailed);
+            } else if (partial && !perfect) {
+                resMatch = updateArray(resMatch, k);
+                copyIntoArray(i, resMatch);
+            } else {
+                copyIntoArray(i, resMatch);
+            }
+        }
+        printMatrix(n);
+        vector<int> out = prevResultAsVector(n);
+        sort(ALL(out));
+        return out;
+	}
+};
+

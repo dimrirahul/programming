@@ -1,0 +1,68 @@
+
+// {{{ Boilerplate Code <--------------------------------------------------
+// vim:filetype=cpp:foldmethod=marker:foldmarker={{{,}}}
+
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <deque>
+#include <functional>
+#include <iomanip>
+#include <iostream>
+#include <list>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <set>
+#include <sstream>
+#include <stack>
+#include <utility>
+#include <vector>
+#include <iostream>
+
+#define FOR(I,A,B) for(int I = (A); I < (B); ++I)
+#define REP(I,N)   FOR(I,0,N)
+#define ALL(A)     (A).begin(), (A).end()
+
+using namespace std;
+
+// }}}
+
+class DoubleLetter
+{
+public:
+    string process(string s) {
+        stringstream ss;
+        bool found = true;
+        string sc = s;
+        while (found) {
+            int i = 0;
+            found = false;
+            while ( i < sc.size() ) {
+                if (i < sc.size() - 1 && sc[i] == sc[i+1]) {
+                    i++;
+                    found = true;
+                } else {
+                    ss << sc[i];
+                }
+                i++;
+            }
+            sc = ss.str();
+            cout << "SC = " << sc << "\n";
+            ss.str("");
+        }
+        return sc;
+    }
+	string ableToSolve(string S)
+	{
+        string out = process(S);
+        if (out.size() == 0) {
+            return "Possible";
+        } 
+        return "Impossible";
+	}
+};
+

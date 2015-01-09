@@ -1,0 +1,15 @@
+1
+"koder"
+"topcoder"
+1
+"hello"
+"xello"
+0
+"abc"
+"topabcoder"
+2
+"adaabc"
+"aababbc"
+6
+"giorgi"
+"igroig"

@@ -1,0 +1,72 @@
+
+// {{{ Boilerplate Code <--------------------------------------------------
+// vim:filetype=cpp:foldmethod=marker:foldmarker={{{,}}}
+
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <deque>
+#include <functional>
+#include <iomanip>
+#include <iostream>
+#include <list>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <set>
+#include <sstream>
+#include <stack>
+#include <utility>
+#include <vector>
+
+#define FOR(I,A,B) for(int I = (A); I < (B); ++I)
+#define REP(I,N)   FOR(I,0,N)
+#define ALL(A)     (A).begin(), (A).end()
+
+using namespace std;
+
+// }}}
+
+
+const int MAX_SIZE = 51;
+char g_arr[MAX_SIZE][MAX_SIZE];
+class Target
+{
+
+public:
+    void printSquare(int length, int start) {
+        for (int i = start; i< length, i++) {
+            if (i == start || i == length - 1) {
+                for (int j = 0; j < length; ++j)
+                {
+                    g_arr[i][j] = '#';
+                }
+
+                g_arr[start+i][0] = '#';
+                g_arr[start+i][length-1] = '#';
+            }
+        }
+
+    }
+	vector <string> draw(int n)
+	{
+        for (int i = 0; i < MAX_SIZE; ++i)
+        {
+            for (int j = 0; j < MAX_SIZE; ++j)
+            {
+                g_arr[i][j] = " ";
+            }
+            for (int i = 0; i < length; i++) {
+                
+            }
+        }
+	}
+};
+
+
+// Edited by VimCoder 0.3.5
+// http://github.com/chazmcgarvey/vimcoder
+

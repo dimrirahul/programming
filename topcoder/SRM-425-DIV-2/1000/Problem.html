@@ -1,0 +1,35 @@
+<html><body bgcolor="#000000" text="#ffffff"><table><tr><td colspan="2"><h3>Problem Statement</h3></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><p>You are given a 5x5 board containing at most 5 pieces.  Your task is to move the pieces so that the cells occupied by them form a connected component.  A connected component is a set of cells where each pair of cells is connected by at least one path.  Consecutive cells in a path must all be adjacent.  Two cells are called adjacent if they share a common edge.</p>
+<p>You are given a String[] <b>board</b>, where the j-th character of the i-th element is '<tt>*</tt>' if cell (i, j) is occupied by a piece and '<tt>.</tt>' otherwise.  Return the minimum number of moves required to achieve your goal.  Each move consists of moving one piece to an adjacent empty cell.</p></td></tr><tr><td colspan="2"><h3>Definition</h3></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td>Class:</td><td>PiecesMover</td></tr><tr><td>Method:</td><td>getMinimumMoves</td></tr><tr><td>Parameters:</td><td>vector &lt;string&gt;</td></tr><tr><td>Returns:</td><td>int</td></tr><tr><td>Method signature:</td><td>int getMinimumMoves(vector &lt;string&gt; board)</td></tr><tr><td colspan="2">(be sure your method is public)</td></tr></table></td></tr><tr><td colspan="2"><h3>Limits</h3></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td>Time limit (s):</td><td>2.000</td></tr><tr><td>Memory limit (MB):</td><td>64</td></tr></table></td></tr><tr><td colspan="2"><h3>Constraints</h3></td></tr><tr><td align="center" valign="top">-</td><td><b>board</b> will contain exactly 5 elements.</td></tr><tr><td align="center" valign="top">-</td><td>Each element of <b>board</b> will contain exactly 5 characters.</td></tr><tr><td align="center" valign="top">-</td><td>Each character in <b>board</b> will be either '.' or '*'.</td></tr><tr><td align="center" valign="top">-</td><td><b>board</b> will contain between 1 and 5 '*' characters, inclusive.</td></tr><tr><td colspan="2"><h3>Examples</h3></td></tr><tr><td align="center" nowrap="true">0)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{&quot;.....&quot;,
+ &quot;..**.&quot;,
+ &quot;.....&quot;,
+ &quot;...*.&quot;,
+ &quot;.....&quot;}
+</pre></td></tr></table></td></tr><tr><td><pre>Returns: 1</pre></td></tr><tr><td><table><tr><td colspan="2"><pre><tt>
+ + + + + +
+          
+ + + O O +
+          
+ + + + O +
+       |  
+ + + + . +
+          
+ + + + + +</tt></pre></td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">1)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{&quot;.....&quot;,
+ &quot;.....&quot;,
+ &quot;.**..&quot;,
+ &quot;.*...&quot;,
+ &quot;**...&quot;}
+</pre></td></tr></table></td></tr><tr><td><pre>Returns: 0</pre></td></tr><tr><td><table><tr><td colspan="2">The cells occupied by pieces have already formed a connected component.</td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">2)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{&quot;*...*&quot;,
+ &quot;.....&quot;,
+ &quot;.....&quot;,
+ &quot;.....&quot;,
+ &quot;*...*&quot;}
+</pre></td></tr></table></td></tr><tr><td><pre>Returns: 12</pre></td></tr><tr><td><table><tr><td colspan="2"><pre><tt>
+ . + +-+-.
+ |   |    
+ + + + + +
+ |   |    
+ +-O O O-+
+         |
+ + O + + +
+   |     |
+ .-+ + + .</tt></pre></td></tr></table></td></tr></table></td></tr></table><p>This problem statement is the exclusive and proprietary property of TopCoder, Inc.  Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited.  (c)2003, TopCoder, Inc.  All rights reserved.  </p></body></html>

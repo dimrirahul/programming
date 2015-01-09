@@ -1,0 +1,114 @@
+
+// {{{ Boilerplate Code <--------------------------------------------------
+// vim:filetype=cpp:foldmethod=marker:foldmarker={{{,}}}
+
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <deque>
+#include <functional>
+#include <iomanip>
+#include <iostream>
+#include <list>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <set>
+#include <sstream>
+#include <stack>
+#include <utility>
+#include <vector>
+
+#define FOR(I,A,B) for(int I = (A); I < (B); ++I)
+#define REP(I,N)   FOR(I,0,N)
+#define ALL(A)     (A).begin(), (A).end()
+
+using namespace std;
+
+// }}}
+
+
+const int MAX_COST = 1000000;
+class SentenceDecomposition
+{
+public:
+    vector<string> processedWords;
+    map < pair<int, int> , int> costMap;
+
+    int getCost(string a, string b) {
+        string aCpy = a;
+        string bCpy = b;
+        sort(ALL(a));
+        sort(ALL(b));
+        if (a != b) {
+            return MAX_COST;
+        }
+
+        int cost = 0;
+        REP(i, aCpy.size()) {
+            if (aCpy[i] != bCpy[i]) {
+                cost++;
+            }
+        }
+        return cost;
+    }
+
+    void preprocessor(vector<string>& words) {
+        REP(i, words.size()) {
+            sort(ALL(words[i]));
+        }
+    }
+
+    int parseFurther(string s, int pos, vector<string>& validWords) {
+        if (pos >= s.size()) {
+            return 0;
+        }
+
+        int minCost = MAX_COST;
+        for (int j = 1; j + pos <= s.size(); j++) {
+            string key = s.substr(pos, j);
+            REP(j, processedWords.size()) {
+                int subCost = getCost(key, validWords[j]);
+                //cout << " Key=" << key << " Match against=" << processedWords[j] << " Subcost =" << subCost << "\n";
+                if (subCost == MAX_COST) {
+                    continue;
+                }
+                pair <int, int> p = make_pair(pos, processedWords[j].size());
+                if (costMap.count(p) == 1) {
+                    subCost += costMap[p];
+                } else {
+                    int furtherCost = parseFurther(s, pos + processedWords[j].size(), validWords);
+                    costMap[p] = furtherCost;
+                    subCost += furtherCost;
+                }
+                if (subCost == MAX_COST) {
+                    continue;
+                }
+                minCost = min(minCost, subCost);
+            }
+        }
+        return minCost;
+    }
+
+    void printWordMap() {
+        REP (i, processedWords.size()) {
+            cout << processedWords[i] << "  ";
+        }
+        cout << "\n";
+    }
+	int decompose(string sentence, vector <string> validWords)
+	{
+        processedWords.insert(processedWords.end(), ALL(validWords));
+        preprocessor(processedWords);
+        //printWordMap();
+        int cost = parseFurther(sentence, 0, validWords);
+        if (cost == MAX_COST) {
+            cost = -1;
+        }
+		return cost;
+	}
+};
+

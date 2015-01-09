@@ -1,0 +1,16 @@
+0
+{"SSSSS",
+ "SSHHS",
+ "SSSSS"}
+1
+{"SSSSS",
+ "SSHSH",
+ "HSSSS"}
+2
+{"SSS",
+ "SSS",
+ "SSS"}
+1
+{"HSHSHSH", "SSSHSSS", "SSHSHSS", "SHSHSHS"}
+0
+{"HHSH", "HHHS", "HSSS", "SHSH", "HHHS", "HSHH", "SSSH"}

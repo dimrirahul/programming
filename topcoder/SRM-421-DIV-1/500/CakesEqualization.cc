@@ -1,0 +1,81 @@
+
+// {{{ Boilerplate Code <--------------------------------------------------
+// vim:filetype=cpp:foldmethod=marker:foldmarker={{{,}}}
+
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <deque>
+#include <functional>
+#include <iomanip>
+#include <iostream>
+#include <list>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <set>
+#include <sstream>
+#include <stack>
+#include <utility>
+#include <vector>
+
+#define FOR(I,A,B) for(int I = (A); I < (B); ++I)
+#define REP(I,N)   FOR(I,0,N)
+#define ALL(A)     (A).begin(), (A).end()
+
+using namespace std;
+
+// }}}
+const int MAX_WEIGHT = 1000000000;
+class CakesEqualization
+{
+public:
+
+    double getMinDiff(double M, vector<int>& w, int maxCuts) {
+        //printf("M=%f\n", M);
+        double minW = (double) MAX_WEIGHT;
+        double maxW = (double) 0;
+        long long totCuts = 0;
+        int piecesCut = 0;
+        REP(i, w.size()) {
+            double dw = (double) w[i];
+
+            if (M < dw) {
+                piecesCut++;
+                long long cuts = ceil(dw/M);
+                totCuts += cuts;
+                double pw = dw/cuts;
+                minW = min(minW, pw);
+                maxW = max(maxW, pw);
+               // printf("dw=%f, cuts=%lld, totCuts=%lld, pieceweight=%f, minW=%f, maxW=%f\n", dw, cuts, totCuts, pw, minW, maxW);
+            } else {
+                minW = min(minW, dw);
+                maxW = max(maxW, dw);
+            }
+        }
+
+        if (totCuts > (long long)maxCuts + piecesCut) {
+            return (double)-1;
+        } else {
+            return maxW - minW;
+        }
+    }
+	double fairDivision(vector <int> weights, int maxCuts)
+	{
+        double res = (double) MAX_WEIGHT;
+        REP(i, weights.size()) {
+            for(int j = 1; j <= maxCuts + weights.size(); j++) {
+                double M = (double) (weights[i]) / j;
+                double minDiff = getMinDiff(M, weights, maxCuts);
+                if (minDiff != (double) -1) {
+                    res = min(res, minDiff);
+                }
+            }
+        }
+        return res; 
+	}
+};
+

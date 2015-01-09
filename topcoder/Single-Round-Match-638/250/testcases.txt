@@ -1,0 +1,8 @@
+"sumOfTwoNumbers"
+"sum_of_two_numbers"
+"variable"
+"variable"
+"tOPCODER"
+"t_o_p_c_o_d_e_r"
+"theVariableNameCanBeVeryLongLikeThis"
+"the_variable_name_can_be_very_long_like_this"

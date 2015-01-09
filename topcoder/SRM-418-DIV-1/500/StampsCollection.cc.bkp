@@ -1,0 +1,113 @@
+
+// {{{ Boilerplate Code <--------------------------------------------------
+// vim:filetype=cpp:foldmethod=marker:foldmarker={{{,}}}
+
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <deque>
+#include <functional>
+#include <iomanip>
+#include <iostream>
+#include <list>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <set>
+#include <sstream>
+#include <stack>
+#include <utility>
+#include <vector>
+
+#define FOR(I,A,B) for(int I = (A); I < (B); ++I)
+#define REP(I,N)   FOR(I,0,N)
+#define ALL(A)     (A).begin(), (A).end()
+
+using namespace std;
+
+// }}}
+
+const int SIZE = 51;
+const int invalidStamp = 10000;
+class StampsCollection
+{
+public:
+    int stamp1[SIZE];
+    int stamp2[SIZE];
+    int owner[SIZE];
+    int cost[SIZE];
+
+
+    void init() {
+        REP(i, SIZE) {
+            stamp1[i] = stamp2[i] = owner[i] = invalidStamp;
+            cost[i] = 0;
+        }
+    }
+    
+    void populateArrays(int n, vector<string> &demand, vector<int>& price) {
+        REP(i, demand.size()) {
+            stringstream ss(demand[i]);
+            int num;
+            if (ss >> num) {
+                stamp1[i] = num;
+            }
+            if (ss >> num) {
+                stamp2[i] = num;
+            }
+        }
+    }
+
+    void printArrays(int n) {
+        REP(i, n) {
+            printf("index=%d stamp1=%d, stamp2=%d, owner=%d, cost=%d\n", i, stamp1[i], stamp2[i], owner[i], cost[i]);
+        }
+    }
+
+    int sell(int n, vector <string> demand, vector <int> price)
+    {
+        init();
+        populateArrays(n, demand, price);
+        REP(i, n) {
+            REP(j, demand.size()) {
+                int c1;
+                int otherStamp = invalidStamp;
+                int ownerOtherStamp = invalidStamp;
+                if (stamp1[j] == i || stamp2[j] == i) {
+                    otherStamp = (stamp1[j] == i) ? stamp2[j]: stamp1[j];
+                    if (otherStamp < i) {
+                        ownerOtherStamp = owner[otherStamp];
+                        if (ownerOtherStamp == j) {
+                            c1 = cost[i - 1];
+                        } else {
+                            c1 = cost[i-1] + price[j] - price[ownerOtherStamp];
+                        }
+
+                    } else {
+                        c1 = cost[i - 1] + price[j];
+                    }
+
+                    if (c1 > cost[i]) {
+                        cost[i] = c1;
+                        owner[i] = j;
+                        if (otherStamp != invalidStamp) {
+                            owner[otherStamp] = j;
+                        }
+
+                        if (ownerOtherStamp != invalidStamp && ownerOtherStamp != j) {
+                            int othersOtherStamp =  (stamp1[ownerOtherStamp] != i) ? stamp1[ownerOtherStamp]: stamp2[ownerOtherStamp];
+                            owner[othersOtherStamp] = invalidStamp;
+                        }
+                    }
+                }
+            }
+            cost[i+1] = cost[i];
+        }
+        printArrays(n);
+        return cost[n];
+    }
+};
+

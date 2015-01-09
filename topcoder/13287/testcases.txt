@@ -1,0 +1,8 @@
+"Exists"
+"abca"
+"Exists"
+"bbbb"
+"Does not exist"
+"aaaa"
+"Exists"
+"examplesareveryweakthinktwicebeforesubmit"

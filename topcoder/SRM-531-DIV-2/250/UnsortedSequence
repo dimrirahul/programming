@@ -1,0 +1,70 @@
+// {{{ Boilerplate Code <--------------------------------------------------
+// vim:filetype=cpp:foldmethod=marker:foldmarker={{{,}}}
+
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <deque>
+#include <functional>
+#include <iomanip>
+#include <iostream>
+#include <list>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <set>
+#include <sstream>
+#include <stack>
+#include <utility>
+#include <vector>
+
+#define FOR(I,A,B) for(int I = (A); I < (B); ++I)
+#define REP(I,N)   FOR(I,0,N)
+#define ALL(A)     (A).begin(), (A).end()
+
+using namespace std;
+
+// }}}
+
+class UnsortedSequence
+{
+public:
+    bool isSorted(vector<int>& s) {
+        REP(i, s.size()-2) {
+            if (s[i] > s[i+1]) {
+                return false;
+            }
+        }
+        return true;
+    }
+	vector <int> getUnsorted(vector <int> s)
+	{
+        if (!isSorted(s)) {
+            return s;
+        }
+        int i = s.size() -1;
+        bool good = false;
+        for(; i > 0; i--) {
+            if (s[i] != s[i -1]) {
+                good = true;
+                break;
+            }
+        }
+
+        if (!good) {
+            return vector<int>();
+        } else {
+            int temp = s[i];
+            s[i] = s[i-1];
+            s[i-1] = temp;
+            return s;
+        }
+	}
+};
+
+
+// Edited by VimCoder 0.3.5
+// http://github.com/chazmcgarvey/vimcoder

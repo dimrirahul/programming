@@ -1,0 +1,8 @@
+2
+"ab"
+0
+"aaab"
+1
+"aabbbaa"
+3628800
+"abcdefghij"

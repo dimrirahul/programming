@@ -1,0 +1,34 @@
+<html><body bgcolor="#000000" text="#ffffff"><table><tr><td colspan="2"><h3>Problem Statement</h3></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><p>
+A king of a mystical land likes to wear very tall shoes.
+The tall shoes are sometimes an inconvenience as they make traveling through the kingdom's road network difficult.
+</p>
+
+<p>
+There are <b>N</b> cities in the kingdom.
+The cities are numbered 0 through <b>N</b>-1.
+The road network in the kingdom is connected: it is possible to get from any city to any other city by taking one or more roads.
+Each road in the network is bidirectional and connects two different cities.
+You are given the description of the road network in three vector &lt;int&gt;s: <b>X</b>, <b>Y</b>, and <b>height</b>, each with the same number of elements.
+For each valid i, there is a road that connects cities <b>X</b>[i] and <b>Y</b>[i].
+The value <b>height</b>[i] is the height limit for that road:
+The king can travel along that road if and only if the height of his shoes is <b>height</b>[i] or less.
+</p>
+
+<p>
+The king wants to walk from city 0 to city N-1.
+While doing so, he wants to wear shoes that are as tall as possible.
+Before he goes for the walk, he can increase the height limits for some roads.
+The king has a budget of <b>B</b> dollars for the modifications.
+Increasing the height limit of any road by k costs k^2 dollars.
+The height limit of each road can only be increased at most once.
+</p>
+
+<p>
+You are given the int <b>N</b>, the vector &lt;int&gt;s <b>X</b>, <b>Y</b> and <b>height</b>, and the long long <b>B</b>.
+Compute the maximum height of shoes the king may wear for his walk from city 0 to city N-1 after increasing the height limits appropriately.
+</p></td></tr><tr><td colspan="2"><h3>Definition</h3></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td>Class:</td><td>TallShoes</td></tr><tr><td>Method:</td><td>maxHeight</td></tr><tr><td>Parameters:</td><td>int, vector &lt;int&gt;, vector &lt;int&gt;, vector &lt;int&gt;, long long</td></tr><tr><td>Returns:</td><td>int</td></tr><tr><td>Method signature:</td><td>int maxHeight(int N, vector &lt;int&gt; X, vector &lt;int&gt; Y, vector &lt;int&gt; height, long long B)</td></tr><tr><td colspan="2">(be sure your method is public)</td></tr></table></td></tr><tr><td colspan="2"><h3>Limits</h3></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td>Time limit (s):</td><td>2.000</td></tr><tr><td>Memory limit (MB):</td><td>256</td></tr><tr><td>Stack limit (MB):</td><td>256</td></tr></table></td></tr><tr><td colspan="2"><h3>Constraints</h3></td></tr><tr><td align="center" valign="top">-</td><td><b>N</b> will be between 2 and 50, inclusive.</td></tr><tr><td align="center" valign="top">-</td><td><b>from, to, height</b> will have between N-1 and N*(N-1)/2 elements, inclusive.</td></tr><tr><td align="center" valign="top">-</td><td>Each element of <b>X, Y</b> will be between 0 and N-1, inclusive.</td></tr><tr><td align="center" valign="top">-</td><td>For all i, <b>X[i]</b> != <b>Y[i]</b>.</td></tr><tr><td align="center" valign="top">-</td><td>Each undirected edge <b>X[i]</b>, <b>Y[i]</b> will appear at most once.</td></tr><tr><td align="center" valign="top">-</td><td>Each element of <b>height</b> will be between 0 and 10^6, inclusive. </td></tr><tr><td align="center" valign="top">-</td><td>The graph described by <b>X</b> and <b>Y</b> will be connected. </td></tr><tr><td align="center" valign="top">-</td><td><b>B</b> will be between 0 and 10^15, inclusive.</td></tr><tr><td colspan="2"><h3>Examples</h3></td></tr><tr><td align="center" nowrap="true">0)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>3</pre></td></tr><tr><td><pre>{0, 1, 0}</pre></td></tr><tr><td><pre>{1, 2, 2}</pre></td></tr><tr><td><pre>{3, 4, 2}</pre></td></tr><tr><td><pre>1</pre></td></tr></table></td></tr><tr><td><pre>Returns: 4</pre></td></tr><tr><td><table><tr><td colspan="2"><p>
+In this example there are three roads: 0-1 (height limit 3), 1-2 (height limit 4), and 0-2 (height limit 2).
+The king has a budget of 1 dollar.
+The optimal way to use that budget is to increase the height limit for the 0-1 road from 3 to 4.
+After that change, the king can use shoes of height 4 and walk along the path 0-1-2.
+</p></td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">1)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>3</pre></td></tr><tr><td><pre>{0, 1, 0}</pre></td></tr><tr><td><pre>{1, 2, 2}</pre></td></tr><tr><td><pre>{3, 4, 2}</pre></td></tr><tr><td><pre>52</pre></td></tr></table></td></tr><tr><td><pre>Returns: 9</pre></td></tr><tr><td><table><tr><td colspan="2">Here we can increase the last road's height by 7 which will allow the king to wear shoes of height 9. Note that the king is not required to spend the entire budget.</td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">2)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>8</pre></td></tr><tr><td><pre>{0, 0, 3, 3, 4, 4, 4, 7, 7}</pre></td></tr><tr><td><pre>{1, 2, 1, 2, 3, 5, 6, 5, 6}</pre></td></tr><tr><td><pre>{1000, 1000, 1000, 1000, 1, 1000, 1000, 1000, 1000}</pre></td></tr><tr><td><pre>3</pre></td></tr></table></td></tr><tr><td><pre>Returns: 2</pre></td></tr><tr><td><table><tr><td colspan="2"></td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">3)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>10</pre></td></tr><tr><td><pre>{0,1,2,3,4,5,6,7,8}</pre></td></tr><tr><td><pre>{1,2,3,4,5,6,7,8,9}</pre></td></tr><tr><td><pre>{0,0,0,0,0,0,0,0,0}</pre></td></tr><tr><td><pre>9876543210123</pre></td></tr></table></td></tr><tr><td><pre>Returns: 1047565</pre></td></tr><tr><td><table><tr><td colspan="2"></td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">4)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>6</pre></td></tr><tr><td><pre>{0,0,0,0,0,1,1,1,1,2,2,2,3,3,4}</pre></td></tr><tr><td><pre>{1,2,3,4,5,2,3,4,5,3,4,5,4,5,5}</pre></td></tr><tr><td><pre>{999999,986588,976757,988569,977678,999999,967675,947856,955856,999999,975956,956687,999999,979687,999999}</pre></td></tr><tr><td><pre>0</pre></td></tr></table></td></tr><tr><td><pre>Returns: 999999</pre></td></tr><tr><td><table><tr><td colspan="2"></td></tr></table></td></tr></table></td></tr></table><p>This problem statement is the exclusive and proprietary property of TopCoder, Inc.  Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited.  (c)2003, TopCoder, Inc.  All rights reserved.  </p></body></html>

@@ -9,8 +9,10 @@ class CFInitializer:
     Code to initialize templates for codeforces.
     """
 
-    templateDir = "/home/rdimri/Dropbox/programming/templates/"
-    dest = "/home/rdimri/programming/codeforces/"
+    #templateDir = "/home/rdimri/Dropbox/programming/templates/"
+    templateDir = "./"
+    #dest = "/home/rdimri/programming/codeforces/"
+    dest = "../codeforces/" 
     classTemplate = "ClassTemplate.cc"
     makefile = "makefile"
 

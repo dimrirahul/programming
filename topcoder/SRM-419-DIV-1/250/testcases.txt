@@ -1,0 +1,18 @@
+"a"
+{"type a", "type b", "type c", "undo 3"}
+{1, 2, 3, 5}
+"a"
+{"type a", "type b", "undo 2", "undo 2"}
+{1,2,3,4}
+"a"
+{"type a", "undo 1", "undo 1"}
+{1,2,3}
+"abc"
+{"type a", "type b", "type c", "undo 10"}
+{1, 2, 3, 1000}
+""
+{"undo 1"}
+{1}
+"e"
+{"type e", "undo 465873346", "undo 248787200"}
+{448086244, 771669996, 797057937}

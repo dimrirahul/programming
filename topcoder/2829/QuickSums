@@ -1,0 +1,77 @@
+#include <stdlib.h>
+#include <vector>
+#include <map>
+#include <climits>
+
+
+using namespace std;
+
+const int reallyLargeInt = 2147483647;
+class Node {
+    public:
+        int m_start, m_end, m_sum;
+        Node(int start, int end): m_start(start), m_end(end), m_sum(0) {}
+
+        bool operator<(Node other) const {
+            if (m_start != other.m_start) {
+                return m_start < other.m_start;
+            }
+            if (m_end != other.m_end) {
+                return m_end < other.m_end;
+            }
+            return m_sum < other.m_sum;
+        }
+};
+
+class QuickSums
+{
+public:
+    map <Node, int> m_sumMap;
+    string m_string;
+
+    int getValue(int start, int end) {
+        int sum = 0;
+        for (int i = start; i< end; i++) {
+            sum = sum * 10 + m_string[i] - '0';
+        }
+        return sum;
+    }
+
+    int getNum(int start, int end) {
+        Node n(start, end);
+        map<Node, int>::iterator it = m_sumMap.find(n);
+        if (it != m_sumMap.end()) {
+            return it->second;
+        }
+        int value = getValue(start, end);
+        m_sumMap[n] = value;
+        return value;
+    }
+
+    int eval(int start, int end, int sum) {
+        int num = getNum(start, end);
+        if (num == sum) {
+            return 0;
+        } 
+        if (num < sum) {
+            return -1;
+        }
+
+        int minCount = reallyLargeInt; 
+
+        for (int i = start + 1; i < end; i++) {
+            int count = eval(i, end, sum - getNum(start, i));
+            if (count < 0) {
+                continue;
+            }
+            minCount = min(count, minCount);
+        }
+        return minCount == reallyLargeInt ? -1: minCount + 1;
+    }
+
+    int minSums(string numbers, int sum)
+    {
+        m_string = numbers;
+        return eval(0, numbers.size(), sum);
+    }
+};

@@ -1,0 +1,18 @@
+8
+"neotowheret"
+{"one", "two", "three", "there"}
+2
+"abba"
+{"ab", "ac", "ad"}
+-1
+"thisismeaningless"
+{"this", "is", "meaningful"}
+10
+"ommwreehisymkiml"
+{"we", "were", "here", "my", "is", "mom", "here", "si", "milk", "where", "si"}
+8
+"ogodtsneeencs"
+{"go", "good", "do", "sentences", "tense", "scen"}
+-1
+"sepawaterords"
+{"separate","words"}

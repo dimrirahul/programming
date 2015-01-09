@@ -1,0 +1,8 @@
+"Hello programmer. Welcome to topcoder."
+"hello programmer. welcome to topcoder."
+"One."
+"one."
+"Not really. English. Qwertyuio. A. Xyz."
+"not really. english. qwertyuio. a. xyz."
+"Example four. The long fourth example. A. B. C. D."
+"example four. the long fourth example. a. b. c. d."

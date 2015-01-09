@@ -1,0 +1,8 @@
+"Saturday"
+{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"}
+"Saturday"
+{"Sunday", "Monday", "Tuesday", "Wednesday", "Friday", "Thursday"}
+"Wednesday"
+{"Sunday", "Monday", "Tuesday", "Thursday", "Friday", "Saturday"}
+"Thursday"
+{"Sunday", "Friday", "Tuesday", "Wednesday", "Monday", "Saturday"}

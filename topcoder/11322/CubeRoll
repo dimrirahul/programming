@@ -1,0 +1,94 @@
+// {{{ Boilerplate Code <--------------------------------------------------
+// vim:filetype=cpp:foldmethod=marker:foldmarker={{{,}}}
+
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <deque>
+#include <functional>
+#include <iomanip>
+#include <iostream>
+#include <list>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <set>
+#include <sstream>
+#include <stack>
+#include <utility>
+#include <vector>
+
+#define FOR(I,A,B) for(int I = (A); I < (B); ++I)
+#define REP(I,N)   FOR(I,0,N)
+#define ALL(A)     (A).begin(), (A).end()
+
+using namespace std;
+
+// }}}
+
+
+const int MAX_INT = 100001;
+class CubeRoll
+{
+public:
+    int getM2 (int initPos, int goalPos, vector<int>& holePos) {
+        const int temp = initPos;
+        int lbIndex = lower_bound(holePos.begin(), holePos.end(), temp);
+        int ubIndex = upper_bound(holePos.begin(), holePos.end(), temp);
+
+        int lb = holePos[lbIndex - holePos.begin()];
+        int ub = holePos[ubIndex - holePos.begin()];
+        if (goalPos <= lb || goalPos >= ub) {
+            return -1;
+        }
+
+        int res = MAX_INT;
+        bool b1 = true; bool b2 = true;
+        for ( int i = 1; b1 || b2 ; i++) {
+            if (b1) {
+                b1 = initPos + (i * i) < ub;
+            }
+
+            if (b2) {
+                b2 = initPos - (i * i) > lb;
+            }
+
+            int r1 = -1;
+            int r2 = -1;
+            if (b1) {
+                r1 = getMinimumSteps(initPos + (i * i), goalPos, holePos);
+            }
+
+            if (b2) {
+                r2 = getMinimumSteps(initPos - (i * i), goalPos, holePos);
+            }
+
+            if ( r1 != -1) {
+                res = min(res, r1);
+            }
+
+            if ( r2 != -1) {
+                res = min( res, r2);
+            }
+        }
+
+        if (res != MAX_INT) { 
+            return 1 + res;
+        } else {
+            return -1;
+        }
+    }
+
+	int getMinimumSteps(int initPos, int goalPos, vector <int> holePos)
+	{
+        sort(holePos.begin(), holePos.end());
+        return getM2(initPos, goalPos, holePos);
+	}
+};
+
+
+// Edited by VimCoder 0.3.5
+// http://github.com/chazmcgarvey/vimcoder

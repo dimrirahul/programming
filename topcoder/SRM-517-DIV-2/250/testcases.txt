@@ -1,0 +1,27 @@
+3
+{"WBWBW",
+ "BBBBB",
+ "WBWBW",
+ "WBWBW"}
+3
+{"BBBB",
+ "BBBB",
+ "BBBB"}
+5
+{"BBBBB",
+ "BBBBB",
+ "BBBBB",
+ "BBBBB",
+ "BBBBB",
+ "BBBBB",
+ "BBBBB",
+ "BBBBB"}
+0
+{"WW",
+ "WW"}
+9
+{"BBBBBBBB",
+ "BBBBBBBB",
+ "BBBBBBBB",
+ "WBWBBBWB",
+ "BBBBBBBB"}

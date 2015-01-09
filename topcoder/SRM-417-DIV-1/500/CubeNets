@@ -1,0 +1,104 @@
+
+// {{{ Boilerplate Code <--------------------------------------------------
+// vim:filetype=cpp:foldmethod=marker:foldmarker={{{,}}}
+
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <deque>
+#include <functional>
+#include <iomanip>
+#include <iostream>
+#include <list>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <set>
+#include <sstream>
+#include <stack>
+#include <utility>
+#include <vector>
+
+#define FOR(I,A,B) for(int I = (A); I < (B); ++I)
+#define REP(I,N)   FOR(I,0,N)
+#define ALL(A)     (A).begin(), (A).end()
+
+using namespace std;
+
+// }}}
+
+typedef vector<string> VS;
+class CubeNets
+{
+public:
+    VS matrix;
+
+    bool isEmpty(string& s) {
+        REP(i, s.size()) {
+            if (s[i] == 'X') {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    void flip(VS& input, VS& out) {
+        for (int i = 0; i < input.size(); i++) {
+            for (int j = 0; j < input[i].size(); j++){
+                if (i == 0) {
+                    out.push_back(1, input[i][j]);
+                }else {
+                    out[j].push_back(input[i][j]);
+                }
+            }
+        }
+    }
+
+    int countEmptyRows(VS& figure) {
+        int empty = 0;
+        REP(i, figure.size()) {
+            if (isEmpty(figure[i])) empty++;
+        }
+        return empty;
+    }
+
+    int countX(string& s) {
+        int count = 0;
+        REP(i, s.size()){
+            if (s[i] == 'X') count++;
+        }
+        return count;
+    }
+
+    bool oneFourOnePattern(int pos) {
+        
+    
+    }
+	string isCubeNet(vector <string> figure)
+	{
+        const string no = "NO"; const string yes = "YES";
+        int emptyRows = countEmptyRows(figure);
+        if ( (6 - emptyRows) > 4  || (6-emptyRows) < 3) return no;
+        if (6-emptyRows == 4) {
+            flip(figure, matrix);
+        } else {
+            matrix.insert(matrix.end(), figure.start(), figure.end());
+        }
+
+        int pos;
+        while (isEmpty(matrix[pos])) {
+            pos++;
+        }
+
+		return string();
+	}
+};
+
+
+// Edited by VimCoder 0.3.5
+// http://github.com/chazmcgarvey/vimcoder
+

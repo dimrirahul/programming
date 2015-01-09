@@ -1,0 +1,10 @@
+4
+{"abc","ca"}
+3
+{"a","a","b","a"}
+6
+{"abcdef", "ab","bc", "de","ef"}
+12
+{"ab","bc", "de","ef","abcdef"}
+33
+{"aaaaaaaaaaabaaaaaaaa", "bac", "aaaabacaaa", "ab", "ba", "a", "ca"}

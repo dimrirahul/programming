@@ -1,0 +1,124 @@
+
+// {{{ Boilerplate Code <--------------------------------------------------
+// vim:filetype=cpp:foldmethod=marker:foldmarker={{{,}}}
+
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <deque>
+#include <functional>
+#include <iomanip>
+#include <iostream>
+#include <list>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <set>
+#include <sstream>
+#include <stack>
+#include <utility>
+#include <vector>
+
+#define FOR(I,A,B) for(int I = (A); I < (B); ++I)
+#define REP(I,N)   FOR(I,0,N)
+#define ALL(A)     (A).begin(), (A).end()
+
+using namespace std;
+
+// }}}
+
+const int MAX_ELEMENTS = 1001;
+typedef pair<int, int> PI;
+typedef vector <int> VI;
+
+class WhereAmI {
+    public:
+        int p1, c1, p2, c2;
+        WhereAmI() {
+            p1 = c1 = p2 = c2 = -1;
+        }
+};
+
+class CandyCollection
+{
+public:
+    bool isFinal[MAX_ELEMENTS];
+    WhereAmI whereAmI[MAX_ELEMENTS];
+    int howManyFinal;
+
+    void clearStuff() {
+        howManyFinal = 0;
+        for (int i = 0; i < MAX_ELEMENTS; i++) {
+            isFinal[i] = false;
+        }
+    }
+
+    void insertIntoWhereAmI(int valueOfT, int index, int arr) {
+        if (whereAmI[valueOfT].p1 == -1) {
+            whereAmI[valueOfT].p1 = index;
+            whereAmI[valueOfT].c1 = arr;
+        } else {
+            whereAmI[valueOfT].p2 = index;
+            whereAmI[valueOfT].c2 = arr;
+        }
+    }
+
+    PI getOtherIndex(int value, int myIndex) {
+        if (whereAmI[value].p1 == myIndex) {
+            return make_pair(whereAmI[value].p2, whereAmI[value].c2);
+        } else {
+            return make_pair(whereAmI[value].p1, whereAmI[value].c1);
+        }
+    }
+
+    int getCount(PI p, VI &n1, VI& n2) {
+        return max(n1[p.first], n2[p.first]);
+    }
+
+	int solve(vector <int> t1, vector <int> n1, vector <int> t2, vector <int> n2)
+	{
+        clearStuff();
+        //int count = 0;
+        int sum = 0;
+        int i1, i2;
+        for (int i = 0; i < t1.size(); i++) {
+            insertIntoWhereAmI(t1[i], i, 0);
+            insertIntoWhereAmI(t2[i], i, 1);
+        }
+
+        for (int i = 0; i < t1.size(); i++) {
+            if (isFinal[i]) {
+                continue;
+            }
+            i1 = t1[i];
+            i2 = t2[i];
+
+            PI other1 = getOtherIndex(i1, i);
+            PI other2 = getOtherIndex(i2, i);
+
+            if (other1.first == other2.first) {
+                cout << "Match equals\n";
+                sum += min (getCount(other1, n1, n2), max(n1[i], n2[i])) + 1;
+                isFinal[other1.first] = true;
+            } else if (max(n1[i], n2[i]) + 1 < getCount(other1, n1, n2) + getCount(other2, n1, n2) + 2) {
+                //choose this over other.
+                sum += max(n1[i], n2[i]) + 1;
+                cout << "Match lt\n";
+            } else {
+                sum += getCount(other1, n1, n2) + getCount(other2, n1, n2) + 2;
+                isFinal[other1.first] = isFinal[other2.first] = true;
+                cout << "Match gt\n";
+            }
+            isFinal[i] = true;
+        }
+		return sum;
+	}
+};
+
+
+// Edited by VimCoder 0.3.5
+// http://github.com/chazmcgarvey/vimcoder
+

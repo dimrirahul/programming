@@ -1,0 +1,95 @@
+
+// {{{ Boilerplate Code <--------------------------------------------------
+// vim:filetype=cpp:foldmethod=marker:foldmarker={{{,}}}
+
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <deque>
+#include <functional>
+#include <iomanip>
+#include <iostream>
+#include <list>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <set>
+#include <sstream>
+#include <stack>
+#include <utility>
+#include <vector>
+
+#define FOR(I,A,B) for(int I = (A); I < (B); ++I)
+#define REP(I,N)   FOR(I,0,N)
+#define ALL(A)     (A).begin(), (A).end()
+
+using namespace std;
+
+// }}}
+
+typedef pair<int, int> PI;
+const int SIZE = 10;
+class IngredientProportions
+{
+public:
+    PI ratios[SIZE][SIZE];
+    void init() {
+        REP(i, SIZE) { REP(j, SIZE) ratios[i][j] = make_pair(-1, -1); }
+    }
+
+    int gcd(int a, int b) {
+        if (b == 0) return a;
+        return gcd (b, a%b);
+    }
+
+    void parse(char *buffer) {
+        int a, b, c, d;
+        sscanf(buffer, "#%d and #%d as %d:%d", &a, &b, &c, &d);
+        int cd = gcd(c, d);
+        ratios[a][b] = make_pair(c/cd, d/cd);
+        ratios[b][a] = make_pair(d/cd, c/cd);
+    }
+    vector <int> getMasses(vector <string> proportions)
+    {
+        init();
+        vector <int> res;
+        int size = proportions.size() + 1;
+        REP(i, size -1 ) { parse(proportions[i].c_str()); }
+        queue<int> q;
+        q.push(0);
+        ratios[0][0] = make_pair(1, 1);
+        set <int> visited;
+        while (!q.empty()) {
+            int n = q.front();
+            q.pop();
+            if (visited.count(n) != 0) continue;
+            visited.insert(n);
+            REP(i, size) {
+                if (visited.count(i) != 0) continue;
+                if (ratios[n][i] != make_pair(-1, -1)) {
+                    ratios[i][i].first = ratios[n][n].first * ratios[i][n].first;
+                    ratios[i][i].second = ratios[n][n].second * ratios[i][n].second;
+                    int cd = gcd(ratios[i][i].first, ratios[i][i].second);
+                    ratios[i][i].first /= cd;
+                    ratios[i][i].second /= cd;
+                    q.push(i);
+                }
+            }
+        }
+
+        long long lcm = ratios[0][0].second;
+        FOR(i, 1, size) {
+            int cd = gcd((int)lcm, ratios[i][i].second);
+            lcm = (lcm * ratios[i][i].second ) / cd;
+        }
+
+        REP(i, size) {
+            res.push_back(((int)lcm * ratios[i][i].first)/ ratios[i][i].second);
+        }
+        return res;
+    }
+};
+

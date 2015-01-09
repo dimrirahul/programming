@@ -1,0 +1,89 @@
+// {{{ Boilerplate Code <--------------------------------------------------
+// vim:filetype=cpp:foldmethod=marker:foldmarker={{{,}}}
+
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <deque>
+#include <functional>
+#include <iomanip>
+#include <iostream>
+#include <list>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <set>
+#include <sstream>
+#include <stack>
+#include <utility>
+#include <vector>
+
+#define FOR(I,A,B) for(int I = (A); I < (B); ++I)
+#define REP(I,N)   FOR(I,0,N)
+#define ALL(A)     (A).begin(), (A).end()
+
+using namespace std;
+
+// }}}
+
+typedef pair <double, int> DI;
+typedef pair <double, double> PD;
+class EquilibriumPoints
+{
+    public:
+
+        bool areEqual(double a, double b) {
+            return (abs (a-b) < 1e-20);
+        }
+
+        PD findForce(int index, double mid, vector<int>& x, vector<int>& m) {
+            double leftForce = 0, rightForce = 0;
+            for (int i = 0; i < m.size(); i++) {
+                double force = (double) m[i]/ ((mid - x[i]) * (mid - x[i]));
+                if (i <= index) {
+                    leftForce += force;
+                } else {
+                    rightForce += force;
+                }
+            }
+            return make_pair(leftForce, rightForce);
+        }
+
+        double findPt(int index, vector<int>& x, vector<int>& m) {
+            double start = x[index];
+            double end = x[index+1];
+            double res;
+            int count = 0;
+            do {
+                
+                double mid = (start + end)/2;
+                PD force = findForce(index, mid, x, m);
+                double forceL = force.first;
+                double forceR = force.second;
+                res = mid;
+                if (areEqual(forceL, forceR)) {
+                    break;
+                } else if (forceL > forceR) {
+                    start = mid;
+                } else {
+                    end = mid;
+                }
+            } while (count++ < 500);
+            return res;
+        }
+        vector <double> getPoints(vector <int> x, vector <int> m)
+        {
+            vector <double> result;
+            for (int i = 0; i < m.size() -1; i++) {
+                result.push_back(findPt(i, x, m));
+            }
+
+            return result;
+        }
+};
+
+// Edited by VimCoder 0.3.5
+// http://github.com/chazmcgarvey/vimcoder

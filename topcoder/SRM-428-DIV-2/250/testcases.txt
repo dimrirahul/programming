@@ -1,0 +1,8 @@
+5
+"abab"
+7
+"abacaba"
+11
+"qwerty"
+38
+"abdfhdyrbdbsdfghjkllkjhgfds"

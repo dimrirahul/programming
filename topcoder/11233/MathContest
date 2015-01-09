@@ -1,0 +1,50 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <sstream>
+
+using namespace std;
+
+class MathContest {
+public:
+	void buildString(string& bs, int reps, string& out) {
+		stringstream ss;
+		while (reps > 0) {
+			ss << bs;
+			reps--;	
+		}
+		out = ss.str();
+	}
+	int countBlack(string os, int reps) {
+	    string bs;
+	    buildString(os, reps, bs);
+		bool reverse = false;
+		bool colorFlipped = false;
+		int balls = 0;
+		
+		int start = 0; int end = bs.size();
+		while (start < end) {
+			if (!reverse) {
+				if ( (!colorFlipped && bs[start] == 'W') 
+						|| (colorFlipped && bs[start] == 'B')) {
+					reverse = !reverse;
+					start++;
+				} else {
+					balls++;
+					start++;
+					colorFlipped = !colorFlipped;
+				}
+			} else {
+				if ( (!colorFlipped && bs[end - 1] == 'W') || (colorFlipped && bs[end -1] == 'B')) {
+					end--;
+					reverse = !reverse;
+				} else {
+					balls++;
+					end--;
+					colorFlipped = !colorFlipped; 
+				}
+			}
+		}
+		return balls;
+	}
+};

@@ -1,0 +1,117 @@
+// {{{ Boilerplate Code <--------------------------------------------------
+// vim:filetype=cpp:foldmethod=marker:foldmarker={{{,}}}
+
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <deque>
+#include <functional>
+#include <iomanip>
+#include <iostream>
+#include <list>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <set>
+#include <sstream>
+#include <stack>
+#include <utility>
+#include <vector>
+
+#define FOR(I,A,B) for(int I = (A); I < (B); ++I)
+#define REP(I,N)   FOR(I,0,N)
+#define ALL(A)     (A).begin(), (A).end()
+
+using namespace std;
+
+// }}}
+
+const int SIZE = 51;
+typedef pair< int, int> PI;
+class Comp {
+    public:
+        bool operator()(PI lhs, PI rhs) {
+            return lhs.first < rhs.first;
+        }
+};
+
+class TheTower
+{
+    public:
+        int table[SIZE][SIZE];
+        void init() {
+            REP(i, SIZE) {
+                REP(j, SIZE) {
+                    table[i][j] = 0;
+                }
+            }
+        }
+
+        void printTable(int s) {
+            REP(i, s) {
+                REP(j, s) {
+                    cout << "Sum" << table[i][j] << "\n";
+                }
+            }
+        }
+        void populateRow(int row, vector<int>& x, vector<int>& y) {
+            vector <PI> neigh;
+            REP(i, x.size()) {
+                neigh.push_back(make_pair(abs(x[i] - x[row]) + abs(y[i] - y[row]), i));
+            }
+            Comp comp;
+            sort(ALL(neigh), comp);
+            REP(i, neigh.size()) {
+                int steps = getSteps(i, x, y, neigh);
+                table[row][i] = steps;
+            }
+        }
+
+        int getSteps(int elems, vector<int>& x, vector<int>& y, vector<PI> &neigh) {
+            vector<int> xd, yd;
+            for(int i = 0; i <= elems; i++) {
+                xd.push_back(x[neigh[i].second]);
+                yd.push_back(y[neigh[i].second]);
+            }
+            sort(ALL(xd));
+            sort(ALL(yd));
+
+            int xmed = xd[xd.size()/2];
+            int ymed = yd[yd.size()/2];
+
+            int res = 0;
+            REP(i, xd.size()) {
+                res += abs(xd[i] - xmed) + abs(yd[i] - ymed);
+            }
+            return res;
+        
+        }
+        void populateRes(int s, vector<int>& res) {
+            res.clear();
+            REP(i, s) {
+                int minSteps = table[0][i];
+                REP(j, s) {
+                    minSteps = min(minSteps, table[j][i]);
+                }
+                res.push_back(minSteps);
+            }
+        }
+        vector <int> count(vector <int> x, vector <int> y)
+        {
+            init();
+            vector<int> out;
+            REP(i, x.size()) {
+                populateRow(i, x, y);
+            }
+            populateRes(x.size(), out);
+            //printTable(x.size());
+            return out;
+        }
+};
+
+
+// Edited by VimCoder 0.3.5
+// http://github.com/chazmcgarvey/vimcoder

@@ -1,0 +1,26 @@
+1
+{"N"}
+5
+{"NNYN",
+ "NNYN",
+ "NNNN",
+ "NYYN"}
+17
+{"NNNNNN",
+ "YNYNNY",
+ "YNNNNY",
+ "NNNNNN",
+ "YNYNNN",
+ "YNNYNN"}
+8
+{"NYNNYN",
+ "NNNNNN",
+ "NNNNNN",
+ "NNYNNN",
+ "NNNNNN",
+ "NNNYYN"}
+4
+{"NNNN",
+ "NNNN",
+ "NNNN",
+ "NNNN"}

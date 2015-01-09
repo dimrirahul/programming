@@ -1,0 +1,257 @@
+
+// {{{ Boilerplate Code <--------------------------------------------------
+// vim:filetype=cpp:foldmethod=marker:foldmarker={{{,}}}
+
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <deque>
+#include <functional>
+#include <iomanip>
+#include <iostream>
+#include <list>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <set>
+#include <sstream>
+#include <stack>
+#include <utility>
+#include <vector>
+
+#define FOR(I,A,B) for(int I = (A); I < (B); ++I)
+#define REP(I,N)   FOR(I,0,N)
+#define ALL(A)     (A).begin(), (A).end()
+
+using namespace std;
+
+// }}}
+const int MATRIX_SIZE = 5;
+typedef pair <int, int> PI;
+typedef vector <int> VI;
+typedef vector < VI > VVI;
+class Comp {
+    public:
+        bool operator()(const VI& f, const VI& s) const {
+            VI first;
+            VI second;
+            first.insert(first.end(), ALL(f));
+            second.insert(second.end(), ALL(s));
+            sort(ALL(first));
+            sort(ALL(second));
+            for (int i = 0; i < min(first.size(), second.size()); i++) {
+                if (first[i] < second[i]) {
+                    return true;
+                } else if (first[i] > second[i]) {
+                    return false;
+                }
+            }
+            return first.size() < second.size();
+        }
+};
+class PiecesMover
+{
+public:
+    PI toXY(int pos) {
+        PI res;
+        res.first = pos/MATRIX_SIZE;
+        res.second = pos % MATRIX_SIZE;
+        return res;
+    }    
+
+    int fromXY(PI p) {
+        return p.first * MATRIX_SIZE + p.second;
+    }
+
+    VI getNeighborsInRange(int pos, int n) {
+        VI res;
+        PI p = toXY(pos);
+        for (int i = -n; i <= n; i++) {
+            for (int j = -n; j <=n ; j++) {
+                if ((p.first + i) >= 0 && (p.first + i) < MATRIX_SIZE &&
+                        (p.second + j) >= 0 && (p.second + j) < MATRIX_SIZE &&
+                        (abs(i) + abs(j))  <= n    
+                   ) {
+                    res.push_back(fromXY(make_pair(p.first + i, p.second +j)));
+                }
+            }
+        }
+        return res;
+    }
+
+    bool find(VI& v, int value) {
+        REP(i, v.size()) {
+            if (v[i] == value) {
+                return true;
+            }
+        }
+        return false;
+    }
+    VVI generateAllPermutations(VI &elements, int n) {
+        VVI res;
+        int es = elements.size();
+        REP(i, es) {
+            VI t;
+            t.push_back(elements[i]);
+            res.push_back(t);
+        }
+        VVI t1;
+        t1.insert(t1.end(), res.begin(), res.end());
+        for (int i = 2; i <= n; i++) {
+            res.clear();
+            REP(j, t1.size()) {
+                REP(k, es) {
+                    if (!find(t1[j], elements[k])) {
+                        res.push_back(t1[j]);
+                        res[res.size() - 1].push_back(elements[k]);
+                    }
+                }
+            }
+            t1.clear();
+            t1.insert(t1.end(), res.begin(), res.end());
+        }
+        return res;
+    }
+
+    int countBits(unsigned int x) {
+        int bits = 0;
+        for (int i = 0; i < 32; i++) {
+            if (x & (1 << i)) {
+                bits++;
+            }
+        }
+        return bits;
+    }
+    VVI generateAllCombinations(VI &elements, int n) {
+        VVI res;
+        unsigned int maxNum = (unsigned int) pow(2, elements.size());
+        printf("%d\n", elements.size());
+        for (int i = 0; i <= maxNum; i++) {
+            if(countBits(i) == n) {
+                vector<int> v;
+                for (int j = 0; j < elements.size(); j++) {
+                    if (i & (1 << j)) {
+                        v.push_back(elements[j]);
+                    }
+                }
+                res.push_back(v);
+            }
+        }
+        return res;
+    }
+
+    VI getStartPos(vector<string>& board) {
+        VI res;
+        REP(i, MATRIX_SIZE) {
+            REP(j, MATRIX_SIZE) {
+                if (board[i][j] == '*') {
+                    res.push_back(fromXY(make_pair(i, j)));
+                }
+            }
+        }
+        return res;
+    }
+
+    int getMinMovesForAPerm(VI dest, VI& start) {
+        int moves = 5 * 2 * MATRIX_SIZE;
+        sort(ALL(dest));
+        do {
+            int curMoves = 0;
+            REP(i, start.size()) {
+                PI s1 = toXY(start[i]);
+                PI s2 = toXY(dest[i]);
+                curMoves += abs(s1.first - s2.first) + abs(s1.second - s2.second);
+            }
+            moves = min(curMoves, moves);
+        } while(next_permutation(ALL(dest)));
+        return moves;
+    }
+
+    void printVVI(VVI& vvi, const char *message) const {
+        printf("%s\n", message);
+        int count = 0;
+        for (VVI::const_iterator it = vvi.begin(); it != vvi.end(); it++) {
+            char buffer[100];
+            sprintf(buffer, "Index=%d\n", count++);
+            printVI(*it, buffer);
+        }
+        printf("Tot size=%d\n", count);
+    }
+    void addNeighbors(int node, queue<int>& dq, set<int>& visited) {
+        VI nei = getNeighborsInRange(node, 1);
+        for (int i = 0; i < nei.size(); i++) {
+            if ( visited.count(nei[i]) == 0) {
+                dq.push(nei[i]);
+            }
+        }
+    }
+    bool areAdjacent(VI& places, int len) {
+        queue<int> dq;
+        set<int> visited;
+        dq.push(places[0]);
+        while (!dq.empty()) {
+            int f = dq.front();
+            dq.pop();
+            if (visited.count(f) > 0) continue;
+            visited.insert(f);
+            addNeighbors(f, dq, visited);
+        }
+        int numVisits = 0;
+        REP(i, places.size()) {
+            if (visited.count(places[i]) > 0) {
+                numVisits++;
+            }
+        }
+        return numVisits == places.size();
+    }
+
+    void printVI(VI v, const char *message) const {
+        printf("%s\n{", message);
+        for(VI::const_iterator it = v.begin(); it != v.end(); it++) {
+            printf("%d,", *it);
+        }
+        printf("}\n");
+    
+    }
+
+    int getMinimumMoves(vector <string> board)
+    {
+        VI test;
+        test.push_back(1);
+        test.push_back(2);
+        test.push_back(3);
+
+        map<VI, int, Comp> resMap;
+        VI startPosArray = getStartPos(board);
+        //printVI(startPosArray, "start pos array ");
+        int result = 5 * 2 * MATRIX_SIZE;
+        //For each (x, y)
+        //1) Find all possible neighbors within 4*n*n reach
+        REP(i, MATRIX_SIZE * MATRIX_SIZE) {
+            VI neighbors = getNeighborsInRange(i, startPosArray.size() -1);
+            //printf("Me=%d\n", i);
+            //printVI(neighbors, "My neighbors ");
+            VVI perms = generateAllCombinations(neighbors, startPosArray.size());
+            //printVVI(perms, "My permutations");
+            REP(j, perms.size()) {
+                if (resMap.count(perms[i]) == 0) {
+                    if (areAdjacent(perms[j], startPosArray.size())) {
+                        //printVI(perms[j], "Adjacent Perms ");
+                        int moves = getMinMovesForAPerm(perms[j], startPosArray);
+                        resMap[perms[j]] = moves;
+                        result = min(result, moves);
+                    }
+                }
+            }
+        }
+        //2) Generate all permutations of size n.
+        //3) For each permutation check if it is adjacent.
+        //4) Check if the permutation has already been evaluated, if not then evaluate it.
+
+        return result;
+    }
+};
+

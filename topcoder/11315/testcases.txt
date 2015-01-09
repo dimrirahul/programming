@@ -1,0 +1,10 @@
+"YES"
+{"cyan","magenta","yellow","purple","black","white","purple"}
+"NO"
+{"blue","blue","blue","blue","blue","blue","blue","blue","blue","blue"}
+"YES"
+{"red","yellow","blue","red","yellow","blue","red","yellow","blue"}
+"NO"
+{"purple","orange","orange","purple","black","orange","purple"}
+"YES"
+{"white","gray","green","blue","yellow","red","target","admin"}

@@ -1,0 +1,101 @@
+
+// {{{ Boilerplate Code <--------------------------------------------------
+// vim:filetype=cpp:foldmethod=marker:foldmarker={{{,}}}
+
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <deque>
+#include <functional>
+#include <iomanip>
+#include <iostream>
+#include <list>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <set>
+#include <sstream>
+#include <stack>
+#include <utility>
+#include <vector>
+
+#define FOR(I,A,B) for(int I = (A); I < (B); ++I)
+#define REP(I,N)   FOR(I,0,N)
+#define ALL(A)     (A).begin(), (A).end()
+
+using namespace std;
+
+// }}}
+
+typedef vector < vector <int> > VVI;
+class ShipLoading
+{
+    public:
+
+        bool populateMatrix(vector<int> &cr, vector<string>& box, VVI& matrix) {
+            string s;
+            REP(i, box.size()) {
+                s += box[i];
+            }
+
+            REP(i, cr.size()) {
+                vector<int>  v;
+                matrix.push_back(v);
+            }
+
+            stringstream ss(s);
+            int num;
+            while (ss >> num) {
+                bool found = false;
+                REP(i, cr.size()) {
+                    if (num <= cr[i]) {
+                        matrix[i].push_back(num);
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+
+        int minimumTime(vector <int> cranes, vector <string> boxes)
+        {
+            VVI matrix;
+            sort(ALL(cranes));
+            bool isValid = populateMatrix(cranes, boxes, matrix);
+            if (!isValid) {
+                return -1;
+            }
+
+            int t = -1;
+            bool done = false;
+            while (!done) {
+                t++;
+                bool found = false;
+
+                for (int i = cranes.size()-1; i >=0; i--) {
+                    for (int j = i; j >= 0; j--) {
+                        if (matrix[j].size() != 0) {
+                            matrix[j].erase(matrix[j].begin());
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+
+                if(!found) {
+                    done = true;
+                }
+            }
+            return t;
+        }
+};
+
