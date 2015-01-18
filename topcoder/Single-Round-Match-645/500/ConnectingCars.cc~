@@ -1,0 +1,82 @@
+
+// {{{ Boilerplate Code <--------------------------------------------------
+// vim:filetype=cpp:foldmethod=marker:foldmarker={{{,}}}
+
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <deque>
+#include <functional>
+#include <iomanip>
+#include <iostream>
+#include <list>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <set>
+#include <sstream>
+#include <stack>
+#include <utility>
+#include <vector>
+
+#define FOR(I,A,B) for(int I = (A); I < (B); ++I)
+#define REP(I,N)   FOR(I,0,N)
+#define ALL(A)     (A).begin(), (A).end()
+
+using namespace std;
+
+// }}}
+
+class ConnectingCars
+{
+public:
+    vector<int> pos;
+    vector<int> len;
+    vector<int> cumPos;
+    long long calcCost(int p) {
+        long long res = 0;
+        for (int i = 0; i < cumPos.size(); i++) {
+            int costRightEdge = (p + cumPos[i] - pos[i]);
+            res += abs(costRightEdge);
+        }
+        return res;
+    }
+	long long minimizeCost(vector <int> positions, vector <int> lengths)
+	{
+        int cp = 0;
+        vector<pair<int, int> > vp;
+        for (int i = 0; i < positions.size(); i++) {
+            vp.push_back(make_pair(positions[i], lengths[i]));
+        }
+        sort(ALL(vp));
+        for (int i = 0; i < vp.size(); i++) {
+            pos.push_back(vp[i].first);
+            len.push_back(vp[i].second);
+        }
+        for (int i = 0; i < pos.size(); i++) {
+            cumPos.push_back(cp);
+            cp += len[i];
+        }
+        printf("Test 48 %lld\n", calcCost(49));
+        int sc = calcCost(pos[0]);
+        int ec = calcCost(pos[pos.size() - 1]);
+        int s = pos[0];
+        int e = pos[pos.size() -1];
+        while ( s < e ) {
+            int mid = (s + e)/2;
+            int mc = calcCost(mid);
+            if (abs(sc - mc) < abs(ec - mc)) {
+                ec = mc;
+                e = mid;
+            } else {
+                sc = mc;
+                s = mid + 1;
+            }
+        }
+		return min(calcCost(s), calcCost(e));
+	}
+};
+

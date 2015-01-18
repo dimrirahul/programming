@@ -1,0 +1,58 @@
+#include <iostream>
+#include <cstdio>
+#include <vector>
+#include <cstring>
+
+using namespace std;
+const int MAX_SIZE = 16;
+
+class Sorter {
+    public:
+        const bool operator()(string s1, string s2) {
+            if (s1.size() != s2.size()) return (s1.size() > s2.size());
+            else return s1 > s2;
+        }
+}
+class BruteForceLcs {
+    public:
+        char str1[MAX_SIZE];
+        char str2[MAX_SIZE];
+
+        vector <string> vs1;
+        vector <string> vs2;
+        void start() {
+            scanf("%s\n", str1);
+            scanf("%s\n", str2);
+            findLcs();
+        }
+
+        void generateAllSubsequences(char *s, vector<string>& res) {
+            res.clear();
+            int sLen = strlen(s);
+            int limit = 1 << (sLen);
+            for (int i = 1; i < limit; i++) {
+                string t;
+                for (int j = 0; j < sLen; j++) {
+                    if (i & (1 << j)) {
+                        t += s[j];
+                    }
+                }
+                res.push_back(t);
+            }
+        }
+        void findLcs() {
+            generateAllSubsequences(str1, vs1);
+            for (int i = 0; i < vs1.size(); i++) cout << vs1[i] << "\n";
+
+            cout << "Next String\n";
+            generateAllSubsequences(str2, vs2);
+            for (int i = 0; i < vs2.size(); i++) cout << vs2[i] << "\n";
+
+        }
+};
+
+BruteForceLcs bf;
+int main(int argc, char **Argv) {
+    bf.start();
+    return 0;
+}

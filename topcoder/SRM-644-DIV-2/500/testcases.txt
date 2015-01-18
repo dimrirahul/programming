@@ -1,0 +1,10 @@
+{0, 2, 3, 4, 1 }
+{"abc","bcd","cde","cdf","bbc"}
+{0, 0, 1 }
+{"?ala","ara","baba"}
+{2, 0, 0, 3, 2 }
+{"a?","a","a","ab","aa"}
+{0, 1, 0, 2, 0 }
+{"s?nu?ke","sm??eke","?sna?ke","so?th?e","shake??"}
+{0, 1, 2, 3, 4, 5, 6 }
+{"?","z?","zz?","zzz?","zzzz?","zzzzz?","zzzzzz?"}

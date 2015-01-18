@@ -1,0 +1,78 @@
+
+// {{{ Boilerplate Code <--------------------------------------------------
+// vim:filetype=cpp:foldmethod=marker:foldmarker={{{,}}}
+
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <deque>
+#include <functional>
+#include <iomanip>
+#include <iostream>
+#include <list>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <set>
+#include <sstream>
+#include <stack>
+#include <utility>
+#include <vector>
+
+#define FOR(I,A,B) for(int I = (A); I < (B); ++I)
+#define REP(I,N)   FOR(I,0,N)
+#define ALL(A)     (A).begin(), (A).end()
+
+using namespace std;
+
+// }}}
+
+class Wrap {
+    public:
+        string s;
+        int pos;
+        Wrap(string s1, int p) {
+            s = s1;
+        }
+
+        string prefix() {
+            return s.substr(0, pos);
+        }
+
+        string suffix() {
+            return s.substr(pos+1);
+        }
+
+        bool operator < (Wrap other) {
+            if (pos != other.pos) {
+                return pos < other.pos;
+            } else if ( prefix() < other.prefix() ) {
+                return prefix() < other.prefix();
+            } else {
+                return suffix() < other.suffix();
+            }
+        }
+};
+class LostCharacter
+{
+public:
+    int findQ(string s) {
+        int i = 0;
+        while ( i < s.size() ) {
+            if (s[i] == '?') {
+                break;
+            } else {
+                i++;
+            }
+        }
+        return i;
+    }
+	vector <int> getmins(vector <string> str)
+	{
+		return vector <int>();
+	}
+};
+

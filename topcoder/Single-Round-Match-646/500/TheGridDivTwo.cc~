@@ -1,0 +1,94 @@
+
+// {{{ Boilerplate Code <--------------------------------------------------
+// vim:filetype=cpp:foldmethod=marker:foldmarker={{{,}}}
+
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <deque>
+#include <functional>
+#include <iomanip>
+#include <iostream>
+#include <list>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <set>
+#include <sstream>
+#include <stack>
+#include <utility>
+#include <vector>
+
+#define FOR(I,A,B) for(int I = (A); I < (B); ++I)
+#define REP(I,N)   FOR(I,0,N)
+#define ALL(A)     (A).begin(), (A).end()
+
+using namespace std;
+
+// }}}
+
+class Node {
+    public:
+        int x, y, d;
+        Node() {x = 0; y = 0; d = 0;} 
+
+        bool operator <(Node other) const {
+            if (x != other.x) return x < other.x;
+            else return y < other.y;
+        } 
+};
+
+const int SZ = 1000 * 2 + 1;
+class TheGridDivTwo
+{
+public:
+    bool visited[SZ][SZ];
+	int find(vector <int> x, vector <int> y, int k)
+	{
+        queue<Node> q;
+        set < Node > blocked;
+        set <Node > v;
+        for (int i = 0 ; i < x.size(); i++) {
+            Node p;
+            p.x = x[i];
+            p.y = y[i];
+            blocked.insert(p);
+        }
+        REP(i, SZ) {
+            REP (j, SZ) {
+                visited[i][j] = false;
+            }
+        }
+        Node zero;
+        q.push(zero);
+        int maxX = 0;
+        while (!q.empty()) {
+            Node n = q.front();
+            q.pop();
+            maxX = max(maxX, n.x);
+            //if (visited[n.x + 1000][n.y + 1000] || abs(n.d) >= k) continue;
+            if (v.count(n) > 0 || abs(n.d) >= k) continue;
+            //visited[n.x + 1000][n.y + 1000] = true;
+            v.insert(n);
+            Node l, r, u, d;
+            l = r = u = d = n;
+            l.x--;
+            r.x++;
+            u.y++;
+            d.y--;
+            l.d++;
+            r.d++;
+            u.d++;
+            d.d++;
+            if (blocked.count(r) == 0) q.push(r);
+            if (blocked.count(u) == 0) q.push(u);
+            if (blocked.count(d) == 0) q.push(d);
+            if (blocked.count(l) == 0) q.push(l);
+        }
+		return maxX;
+	}
+};
+
