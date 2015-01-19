@@ -1,0 +1,30 @@
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+int main(int argc, char **argv) {
+    int input = atoi(argv[1]);
+    cout << "input=" << input << "\n"; 
+    int bitPos = 0;
+    int div = 1;
+    while (input / div > 0) {
+        bitPos++;
+        div *= 10;
+    } 
+    bitPos--;
+    cout << "bitpos=" << bitPos << "\n";
+    int start = 0;
+    while (bitPos > start) {
+        if ((input / (int) pow(10, bitPos)) != ((input/ (int)pow(10, start)))) {
+            cout << "No match\n";
+            return 0;
+            break;
+        }
+        bitPos--;
+        start++;
+    }
+    cout << "Match\n";
+    return 0;
+
+}
