@@ -136,6 +136,32 @@ class Ll {
         void mergeList(Ll& other) {
             root = mergeList(root, other.root);
         }
+
+        /**
+         * Basically points the end-of-list's next to the node.
+         */
+        void makeListCircular(int nodeValue) {
+            NodePtr t = root;
+            NodePtr l = NULL;
+            while (t->next != NULL) {
+                if (t->v == nodeValue) l = t;
+                t = t->next;
+            }
+            t->next = l;
+        }
+
+        bool hasLoop() {
+            NodePtr fast = root, slow = root;
+            bool res = false;
+            if (fast == NULL || fast->next == NULL || fast->next->next == NULL) return false;
+            while (fast != NULL) {
+                if (fast->next == NULL || fast->next->next == NULL) return false;
+                fast = fast->next->next;
+                slow = slow->next;
+                if (slow == fast) return true;
+            }
+            return false;
+        }
 };
 
 #endif //_LL_H_

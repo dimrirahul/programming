@@ -39,6 +39,12 @@ int main(int argc, char **Argv) {
     l1.printList();
     printf("======== Iterativeley reversing List=====\n");
     l1.reverseListIteratively();
-    l1.printList();
+    l1.makeListCircular(56);
+    if (l1.hasLoop()) {
+        cout << "l1 has loop" << "\n";
+    } else {
+        cout << "l1 does NOT have loop \n";
+        l1.printList();
+    }
     return 0;
 }
