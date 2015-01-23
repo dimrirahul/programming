@@ -34,3 +34,6 @@
 
 #symbol files folder
 *.dSYM/
+
+#core
+core
