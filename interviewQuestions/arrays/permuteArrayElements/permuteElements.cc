@@ -9,9 +9,11 @@ using namespace std;
 class PermuteAccordingToInput {
     public:
         void permute(vector<int>& v, vector<int>& permutation) {
-            assert(v.size() == permutation.size());
+            int nextIndex = permutation[0];
+            int value = v[0];
             for (int i = 0; i < permutation.size() - 1; i++) {
-                swap(v[permutation[i]], v[i]);        
+                swap(value, v[nextIndex]);
+                nextIndex = permutation[nextIndex];
             }
         }
 
