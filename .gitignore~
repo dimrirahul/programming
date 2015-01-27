@@ -31,3 +31,6 @@
 *.cc~
 *.h~
 *~
+
+#symbol files folder
+*.dSYM/

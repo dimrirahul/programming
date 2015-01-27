@@ -26,23 +26,33 @@ class KituyaTreasure {
                 scanf("%d\n", &p);
                 gemsById[p]++;
             }
-            int res = solve(startJump, startJump);
+            dp[startJump][getArrOffset(startJump)] = gemsById[startJump];
+            int res = max(solve(), gemsById[startJump]);
             cout << res << "\n";
         }
-        int getArrOffset(int p, int d) {
+        int getArrOffset(int d) {
             return  d -startJump + 246;
         }
-        int solve(int pos, int d) {
-            if (pos >= MAX_SZ) return 0;
-            int arrPos = getArrOffset(pos, d);
-            if (arrPos >= MAX_WID) return 0;
-            if (dp[pos][arrPos] != -1) return dp[pos][arrPos];
-            int res = max(solve(pos + d, d) , solve(pos + d + 1, d+1));
-            if (d > 1) {
-                res = max(res, solve(pos + d - 1, d - 1));
+        int getMax(int i, int j) {
+            int res = -1;
+            if ( i - j < 0 ) return res;
+            for (int p = -1; p < 2; p++) {
+                if ( j + p <= 0) continue;
+                res = max(res, dp[i-j][getArrOffset(j+p)]);
             }
-            res += gemsById[pos];
-            dp[pos][arrPos] = res;
+            return res;
+        }
+        int solve() {
+            int res = 0;
+            for (int i = startJump; i < MAX_SZ - 1; i++) {
+                for (int j = startJump - 246; j < startJump + 246; j++) {
+                    if ( j <= 0 || getArrOffset(j) >= 500) continue;
+                    int t = getMax(i, j);
+                    if ( t < 0 ) continue;
+                    dp[i][getArrOffset(j)] = t + gemsById[i];
+                    res = max(res, dp[i][getArrOffset(j)]);
+                }
+            }
             return res;
         }
 };
