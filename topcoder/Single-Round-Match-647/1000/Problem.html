@@ -1,0 +1,33 @@
+<html><body bgcolor="#000000" text="#ffffff"><table><tr><td colspan="2"><h3>Problem Statement</h3></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><p>
+The citizens of Byteland want to build <b>N</b> new buildings.
+The new buildings will all stand in a line and they will be labeled 1 through <b>N</b>, in order.
+The city regulations impose some restrictions on the heights of the new buildings.
+You are given the parameters used in these restrictions: an int <b>K</b> and two vector &lt;int&gt;s <b>x</b> and <b>t</b>.
+The restrictions are described below.
+
+<ul>
+<li>The height of each building must be a nonnegative integer.</li>
+<li>The height of building 1 must be 0.</li>
+<li>The absolute value of the difference between any two adjacent buildings must be at most <b>K</b>.</li>
+<li>For each valid i, the height of building <b>x</b>[i] must be <b>t</b>[i] or less.</li>
+</ul>
+</p>
+
+<p>
+Given these restrictions, the citizens of Byteland want to build a building that will be as tall as possible.
+Return the largest possible height some of the <b>N</b> buildings may have.
+</p></td></tr><tr><td colspan="2"><h3>Definition</h3></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td>Class:</td><td>BuildingTowers</td></tr><tr><td>Method:</td><td>maxHeight</td></tr><tr><td>Parameters:</td><td>int, int, vector &lt;int&gt;, vector &lt;int&gt;</td></tr><tr><td>Returns:</td><td>long long</td></tr><tr><td>Method signature:</td><td>long long maxHeight(int N, int K, vector &lt;int&gt; x, vector &lt;int&gt; t)</td></tr><tr><td colspan="2">(be sure your method is public)</td></tr></table></td></tr><tr><td colspan="2"><h3>Limits</h3></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td>Time limit (s):</td><td>2.000</td></tr><tr><td>Memory limit (MB):</td><td>256</td></tr><tr><td>Stack limit (MB):</td><td>256</td></tr></table></td></tr><tr><td colspan="2"><h3>Constraints</h3></td></tr><tr><td align="center" valign="top">-</td><td><b>N</b> will be between 1 and 1,000,000,000, inclusive.</td></tr><tr><td align="center" valign="top">-</td><td><b>K</b> will be between 1 and 1,000,000,000, inclusive.</td></tr><tr><td align="center" valign="top">-</td><td><b>x</b> will contain between 0 and min(<b>N</b>,500) elements, inclusive.</td></tr><tr><td align="center" valign="top">-</td><td><b>t</b> will have exactly the same number of elements as <b>x</b></td></tr><tr><td align="center" valign="top">-</td><td>Each element of <b>x</b> will be between 1 and <b>N</b>, inclusive.</td></tr><tr><td align="center" valign="top">-</td><td><b>x</b>[i] &lt; <b>x</b>[i+1] for all valid i.</td></tr><tr><td align="center" valign="top">-</td><td>Each element of <b>t</b> will be between 1 and 1,000,000,000, inclusive.</td></tr><tr><td colspan="2"><h3>Examples</h3></td></tr><tr><td align="center" nowrap="true">0)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>10</pre></td></tr><tr><td><pre>1</pre></td></tr><tr><td><pre>{3,8}</pre></td></tr><tr><td><pre>{1,1}</pre></td></tr></table></td></tr><tr><td><pre>Returns: 3</pre></td></tr><tr><td><table><tr><td colspan="2"><p>
+In this case we are going to build 10 buildings.
+The difference in height between adjacent buildings is at most 1.
+We also have two additional constraints: the height of building 3 can be at most 1, and the height of building 8 can also be at most 1.
+The tallest possible new building in this city can have height 3.
+One optimal skyline looks as follows: {0,1,1,2,3,3,2,1,1,0}.
+</p></td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">1)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>1000000000</pre></td></tr><tr><td><pre>1000000000</pre></td></tr><tr><td><pre>{}</pre></td></tr><tr><td><pre>{}</pre></td></tr></table></td></tr><tr><td><pre>Returns: 999999999000000000</pre></td></tr><tr><td><table><tr><td colspan="2">There are no additional constraints so, for each valid i, the height of building i can be (i-1)*1000000000.</td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">2)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>20</pre></td></tr><tr><td><pre>3</pre></td></tr><tr><td><pre>{4,7,13,15,18}</pre></td></tr><tr><td><pre>{8,22,1,55,42}</pre></td></tr></table></td></tr><tr><td><pre>Returns: 22</pre></td></tr><tr><td><table><tr><td colspan="2"></td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">3)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>780</pre></td></tr><tr><td><pre>547990606</pre></td></tr><tr><td><pre>{34,35,48,86,110,170,275,288,313,321,344,373,390,410,412,441,499,525,538,568,585,627,630,671,692,699,719,752,755,764,772}</pre></td></tr><tr><td><pre>{89,81,88,42,55,92,19,91,71,42,72,18,86,89,88,75,29,98,63,74,45,11,68,34,94,20,69,33,50,69,54}</pre></td></tr></table></td></tr><tr><td><pre>Returns: 28495511604</pre></td></tr><tr><td><table><tr><td colspan="2"></td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">4)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>7824078</pre></td></tr><tr><td><pre>2374</pre></td></tr><tr><td><pre>{134668,488112,558756,590300,787884,868112,1550116,1681439,1790994,
+1796091,1906637,2005485,2152813,2171716,2255697,2332732,2516853,
+2749024,2922558,2930163,3568190,3882735,4264888,5080550,5167938,
+5249191,5574341,5866912,5936121,6142348,6164177,6176113,6434368,
+6552905,6588059,6628843,6744163,6760794,6982172,7080464,7175493,
+7249044}</pre></td></tr><tr><td><pre>{8,9,171315129,52304509,1090062,476157338,245,6,253638067,37,500,
+29060,106246500,129,22402,939993108,7375,2365707,40098,10200444,
+3193547,55597,24920935,905027,1374,12396141,525886,41,33,3692,
+11502,180,3186,5560,778988,42449532,269666,10982579,48,3994,1,9}</pre></td></tr></table></td></tr><tr><td><pre>Returns: 1365130725</pre></td></tr><tr><td><table><tr><td colspan="2"></td></tr></table></td></tr></table></td></tr></table><p>This problem statement is the exclusive and proprietary property of TopCoder, Inc.  Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited.  (c)2003, TopCoder, Inc.  All rights reserved.  </p></body></html>
