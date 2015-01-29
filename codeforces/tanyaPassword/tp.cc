@@ -1,5 +1,6 @@
-//#include<bits/stdc++.h>
+#include<bits/stdc++.h>
 
+/*
 #include <iostream>
 #include <cstdio>
 #include <vector>
@@ -8,7 +9,7 @@
 #include <cstring>
 #include <stack>
 #include <unordered_map>
-
+*/
 using namespace std;
 const int BUF_SZ = 4;
 const int KEY_SZ = 63;
