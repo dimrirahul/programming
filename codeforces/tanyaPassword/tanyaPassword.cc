@@ -50,12 +50,18 @@ class tanyaPassword {
             res.append(1, (char)getChar(c2));
             return res;
         }
+
+        bool checkFailed(vector<pair<int, int> > &odd) {
+            if (odd.size() % 2 == 1 || odd.size() > 2) return true;
+            if (odd.size() > 1 && (abs(odd[0].second) != 1 || abs(odd[1].second) != 1)) return true;
+            return false;
+        }
         void start() {
             char buff[16];
             memset(adjMatrix, 0, sizeof(int) * SZ * SZ);
             memset(indegree, 0, sizeof(int) * SZ);
             memset(outdegree, 0, sizeof(int) * SZ);
-            memset(visited, 0, sizeof(int) * SZ);
+            memset(visited, 0, sizeof(bool) * SZ);
             cin >> N;
             REP (i, N) {
                 scanf("%s\n", buff);
@@ -71,9 +77,8 @@ class tanyaPassword {
                     odd.push_back(make_pair(i, outdegree[i] - indegree[i]));
                 }
             }
-            if (odd.size() > 2 || odd.size() == 1) {
+            if (checkFailed(odd)) {
                 cout << "NO\n";
-                //if (odd.size() != 6) cout << "Odd size = " << odd.size() << "\n";
                 return;
             }
             //We have a champion.
@@ -103,10 +108,10 @@ class tanyaPassword {
             }
             if (areComponentsConnected) {
                 cout << "YES\n";
+                cout << res << "\n";
             } else {
                 cout << "NO";
             }
-            cout << res << "\n";
         }
         string doFleurysAlgo(int currentNode) {
             string res;
