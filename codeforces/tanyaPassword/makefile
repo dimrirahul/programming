@@ -1,4 +1,4 @@
-CC=g++ -Wall -g
+CC=g++ -std=c++0x -Wall -g
 
 all: tanyaPassword.o
 	$(CC) tanyaPassword.o -o outfile

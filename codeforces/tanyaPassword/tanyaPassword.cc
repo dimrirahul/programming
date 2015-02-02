@@ -3,7 +3,9 @@
 #include <cstring>
 #include <vector>
 #include <stack>
+#include <map>
 #include <algorithm>
+#include <unordered_map>
 
 #define FOR(I,A,B) for(int I = (A); I < (B); ++I)
 #define REP(I,N)   FOR(I,0,N)
@@ -15,15 +17,17 @@ using namespace std;
 typedef pair <int, int> PI;
 typedef vector <int> VI;
 typedef vector <string> VS;
+typedef unordered_map<int, VI> MVI;
 
 typedef long long LL;
 const int SZ = 63 * 63 + 63;
 class tanyaPassword {
     public:
-        int adjMatrix[SZ][SZ];
+        MVI adjMatrix;
         int indegree[SZ];
         int outdegree[SZ];
-        bool visited[SZ]; 
+        bool visited[SZ];
+        unsigned int posV[SZ];
         int N;
         int getKey(char c) {
             int res;
@@ -58,7 +62,7 @@ class tanyaPassword {
         }
         void start() {
             char buff[16];
-            memset(adjMatrix, 0, sizeof(int) * SZ * SZ);
+            memset(posV, 0, sizeof(int) * SZ);
             memset(indegree, 0, sizeof(int) * SZ);
             memset(outdegree, 0, sizeof(int) * SZ);
             memset(visited, 0, sizeof(bool) * SZ);
@@ -67,7 +71,13 @@ class tanyaPassword {
                 scanf("%s\n", buff);
                 string t(buff);
                 int i1, i2;
-                adjMatrix[i1 = getHash(t)][i2 = getHash(t.substr(1))]++;
+                i1 = getHash(t);
+                i2 = getHash(t.substr(1));
+                if (adjMatrix.count(i1) == 0) {
+                    VI t;
+                    adjMatrix[i1] = t;
+                }
+                adjMatrix[i1].push_back(i2);
                 indegree[i2]++;
                 outdegree[i1]++;
             }
@@ -82,20 +92,13 @@ class tanyaPassword {
                 return;
             }
             //We have a champion.
-            int startNode;
+            int startNode = -1;
             if (odd.size() != 0) {
                 if (odd[0].second > 0) startNode = odd[0].first;
                 else startNode = odd[1].first;
             } else {
-                for (int i = 0; i < SZ; i++) {
-                    startNode = -1;
-                    for (int j = 0; j < SZ; j++) {
-                        if (adjMatrix[i][j] > 0) {
-                            startNode = i;
-                            break;
-                        }
-                    }
-                    if (startNode != -1) break;
+                for (MVI::const_iterator it = adjMatrix.begin(); it != adjMatrix.end() && startNode == -1; it++) {
+                    if ((it->second).size() > 0) startNode = it->first;
                 }
             }
             string res  = doFleurysAlgo(startNode);
@@ -119,14 +122,12 @@ class tanyaPassword {
             stack<int> s;
             while (true) {
                 bool found = false;
-                REP (i, SZ) {
-                    if (adjMatrix[currentNode][i] > 0) {
-                        adjMatrix[currentNode][i]--;
-                        s.push(currentNode);
-                        found = true;
-                        currentNode = i; 
-                        break;
-                    }
+                if (adjMatrix[currentNode].size() > posV[currentNode]) {
+                    int next = adjMatrix[currentNode][posV[currentNode]];
+                    s.push(currentNode);
+                    posV[currentNode]++;
+                    currentNode = next;
+                    found = true;
                 }
                 if (!found) {
                     v.push_back(currentNode);
