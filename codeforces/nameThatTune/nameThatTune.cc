@@ -1,4 +1,9 @@
-#include<bits/stdc++.h>
+//#include<bits/stdc++.h>
+#include <vector>
+#include <cstdio>
+#include <iostream>
+#include <cstring>
+#include <cmath>
 
 #define FOR(I,A,B) for(int I = (A); I < (B); ++I)
 #define REP(I,N)   FOR(I,0,N)
@@ -34,23 +39,26 @@ public:
             cin >> t1 >> t2;
             vpi.push_back(make_pair(t1, t2));
         }
-        REP (i, SZ) dp[0][i] = 1;
+        dp[0][0] = 1;
         REP (i, vpi.size()) {
             int p = vpi[i].first;
             int l = vpi[i].second;
             REP (j, T +1) {
                 if (j < i + 1) continue;
                 for (int k =1; k <= l; k++) {
-                    printf("i+1=%d, j=%d, k=%d\n", i +1, j, k);
+                    //printf("i+1=%d, j=%d, k=%d\n", i +1, j, k);
                     double t2;
-                    double prevP = (j-k >= 0) ? dp[i][j-k]: (double)1;
+                    double prevP = (j-k >= 0) ? dp[i][j-k]: (double)0;
                     dp[i + 1][j] += prevP *(t2 = getProbability(p, j - k +1, l, j));
-                    cout << "dp[" << i+1 << "," << j << "] Probability part =  " << t2 << " net = " << dp[i+1][j] << "\n";
+                    //cout << "dp[" << i+1 << "," << j << "] Probability part =  " << t2 << " net = " << dp[i+1][j] << "\n";
                 }
             }
-            printDp(4, 20);
         }
-        cout << dp[N][T] * N << "\n";
+        double sum = 0;
+        REP (i, N+1) {
+            sum += dp[i][T];
+        }
+        cout << sum << "\n";
     }    
     void printDp(int r = SZ, int c = SZ) {
         REP (i, r+1) {
