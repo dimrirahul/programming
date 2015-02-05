@@ -1,0 +1,12 @@
+"ABC"
+3
+3
+"CBA"
+3
+0
+""
+5
+10
+"CABBACCBAABCBBB"
+15
+36
