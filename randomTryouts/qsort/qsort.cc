@@ -10,7 +10,7 @@ using namespace std;
 class Qsort {
     public:
         void quicksort(vector<int>&v, int start, int end) {
-            if (start >= end) return;
+            if (start >= end || (end - start == 1)) return;
             int less = start, more = end -1, pivot;
             pivot = (start + end) >> 1;
             while (less < more) {
@@ -18,14 +18,9 @@ class Qsort {
                 while(v[more] >= v[pivot] && less < more) more--;
                 if (v[less] > v[more]) swap(v[less], v[more]);
             }
-            if (v[pivot] < v[less] && pivot > less) swap(v[pivot], v[less]);
-            printf("After iteration start =%d, end =%d\n", start, end);
-            for (int i = 0; i < v.size(); i++) {
-                cout << v[i] << "  ";
-            }
-            cout << "\n";
-            quicksort(v, start, less);
-            quicksort(v, less + 1, end);
+            if ((less > pivot && v[pivot] > v[less]) || (less < pivot && v[less] > v[pivot])) swap(v[pivot], v[less]);
+            quicksort(v, start, less );
+            quicksort(v, less, end);
         }
 
         bool isCorrect(vector<int> &sortedByMe) {
