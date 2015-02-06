@@ -27,6 +27,7 @@
 *.out
 *.app
 outfile
+driver
 
 # Vim tempfiles
 *.cc~
@@ -38,3 +39,7 @@ outfile
 
 #core
 core
+
+#topcoder
+driver.cc
+Problem.html
