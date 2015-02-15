@@ -26,6 +26,8 @@
 *.exe
 *.out
 *.app
+outfile
+driver
 
 # Vim tempfiles
 *.cc~
@@ -37,3 +39,8 @@
 
 #core
 core
+
+#topcoder
+driver.cc
+Problem.html
+Bin
