@@ -60,13 +60,11 @@ class SparseTable : public RMQ {
             for (int i = 0; i < N; i++) {
                 dp[i][0] = v[i];
                 int exp = 1;
-                printf("I=%d\n", i);
                 while (true) {
                     int start = (1 << (exp -1)) + i;
                     int end = min (N, (1 << (exp)) + i);
-                    printf("start=%d, end=%d, exp=%d\n", start, end, exp);
                     for (int k = start; k < end; k++) {
-                        dp[i][exp] = min(dp[i][exp -1], v[k]);
+                        dp[i][exp] = min( dp[i][exp], min(dp[i][exp -1], v[k]) );
                     }
                     exp++;
                     if (end == N) break;
