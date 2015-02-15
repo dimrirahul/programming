@@ -1,4 +1,4 @@
-package com.company;
+package com.rdimri.lectures.rmq;
 
 public class Main {
 
