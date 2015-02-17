@@ -31,33 +31,19 @@ using namespace std;
 // }}}
 
 const int NA = -1000;
-const int P1 = 5;
-const int P2 = 2147483647;
 class Node {
     public:
         int r, c;
         vector <int> v;
-        long long hv;
         Node() {
-            hv = r = c = -1;
+            r = c = -1;
         }
         bool operator <(Node other) const {
             if (r != other.r) return r < other.r;
             if (c != other.c) return c < other.c;
-            if (hv != other.hv) return hv < other.hv;
             return v < other.v;
         }
-        
-        void calculateHv() {
-            if (v.size() == 0) return;
-            hv = 1;
-            REP(i, v.size()) {
-                hv *= P1;
-                hv %= P2;
-                hv += v[i];
-                hv %= P2;
-            }
-        }
+
         int getMax() {
             if (v.size() == 0) return NA;
             int res = NA;
@@ -140,21 +126,7 @@ class Node {
             }
         }
 
-        Node flip() {
-            Node other;
-            other.r = c;
-            other.c = r;
-            REP (j, c) {
-                REP (i, r) {
-                    other.v.push_back(v[convertToPos(i, j)]);
-                }
-            }
-            other.calculateHv();
-            return other;
-        }
-
-        void print() const {
-            printf("r=%d,c=%d,hv=%lld\n", r, c, hv);
+        void print() {
             REP (i, v.size()) {
                 printf("%2d ", v[i]);
                 if ( (i + 1) % c == 0) {
@@ -167,54 +139,47 @@ class FoldThePaper
 {
 public:
     map <Node, int> cache;
-    int maxV;
     vector<int> parseInput(vector<string>& paper) {
         vector <int> res;
         REP (i, paper.size()) {
-            istringstream ss(paper[i]);
-            int t;
-            while (ss >> t) {
-                res.push_back(t);
+            istringstream ss(paper[i]) {
+                int t;
+                while (ss >> t) {
+                    res.push_back(t);
+                }
             }
         }
         return res;
     }
 
     void populateMap(Node n) {
-        if (cache.count(n) > 0) return;
-        for (int i = 1; i < n.c; i++) {
+        if (cache.find(n) > 0) return;
+        for (int i = 1; i < n.c - 1; i++) {
             Node other;
             n.foldAlongVertical(i, other);
             populateMap(other);
         }
-        for (int i = 1; i < n.r; i++) {
+        for (int i = 1; i < n.r -1; i++) {
             Node other;
             n.foldAlongHorizontal(i, other);
             populateMap(other);
         }
         int res = n.getMax();
-        n.calculateHv();
-        maxV = max(res, maxV);
         cache[n] = res;
-        Node other = n.flip();
-        cache[other] = res;
     }
 	int getValue(vector <string> paper)
 	{
         Node n;
-        maxV = NA;
         vector<int> v = parseInput(paper);
         n.r = paper.size();
         n.c = v.size() / n.r;
         n.v.insert(n.v.end(), ALL(v));
         populateMap(n);
-        /*
+        int res = NA;
         for (map<Node, int>::const_iterator it = cache.begin(); it != cache.end(); it++) {
-            (it->first).print();
-        //    res = max(res, it->second);
+            res = max(res, it->second);
         }
-        */
-		return maxV;
+		return res;
 	}
 };
 
