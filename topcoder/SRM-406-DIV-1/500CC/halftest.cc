@@ -62,16 +62,13 @@ class Node {
 
         void foldAlongVertical(int col, Node& other) {
             other.r = r;
-            other.c = c - col;
             if (col <= c/2) {
+                other.c = c - col;
                 REP (i, r) {
                     for (int j = col; j < c; j++) {
                         other.v.push_back(v[convertToPos(i, j)]);
                     }
                 }
-                cout << "=====\n";
-                other.print();
-                cout << "=====\n";
                 REP (i, r) {
                     for (int j = col -1 ; j >= 0; j--) {
                         int d = col - j -1;
@@ -79,9 +76,10 @@ class Node {
                     }
                 }
             } else {
+                other.c = col;
                 REP (i, r) {
                     for (int j = 0; j < col; j++) {
-                        other.v.push_back(convertToPos(i, j));
+                        other.v.push_back(v[convertToPos(i, j)]);
                     }
                 }
                 REP (i, r) {
@@ -95,8 +93,36 @@ class Node {
         }
 
         void foldAlongHorizontal(int row, Node& other) {
-            other.r = r - row;
             other.c = c;
+            if (row <= r/2) {
+                other.r = r - row;
+                for (int i = row; i < r; i++) {
+                    for (int j = 0; j < c; j++) {
+                        other.v.push_back(v[convertToPos(i, j)]);
+                    }
+                }
+
+                for (int i = row -1 ; i >= 0; i--) {
+                    int d = row - i - 1;
+                    REP (j , c) {
+                        other.v[other.convertToPos(d, j)] += v[convertToPos(i, j)];
+                    }
+                }
+            } else {
+                other.r = row;
+                REP (i, row) {
+                    REP (j, c) {
+                        other.v.push_back(v[convertToPos(i, j)]);
+                    }
+                }
+
+                for (int i = row; i < r; i++) {
+                    int d = i - row;
+                    REP (j, c) {
+                        other.v[convertToPos(row - d -1, j)] += v[convertToPos(i, j)];
+                    }
+                }
+            }
         }
 
         void print() {
@@ -118,14 +144,14 @@ vector<int> getVector() {
 }
 Node n;
 int main(int argc, char **argv) {
-    n.r = 3;
-    n.c = 8;
+    n.r = 8;
+    n.c = 3;
     vector<int> t = getVector();
     n.v.insert(n.v.end(), ALL(t));
     n.print();
     cout << " other \n";
     Node other;
-    n.foldAlongVertical(3, other);
+    n.foldAlongHorizontal(6, other);
     other.print();
     return 0;
 

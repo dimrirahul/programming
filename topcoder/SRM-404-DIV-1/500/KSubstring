@@ -1,89 +1,24 @@
+
 // {{{ Boilerplate Code <--------------------------------------------------
-// vim:filetype=cpp:foldmethod=marker:foldmarker={{{,}}}
+// vim:filetype=java:foldmethod=marker:foldmarker={{{,}}}
 
-#include <algorithm>
-#include <bitset>
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
-#include <ctime>
-#include <deque>
-#include <functional>
-#include <iomanip>
-#include <iostream>
-#include <list>
-#include <map>
-#include <numeric>
-#include <queue>
-#include <set>
-#include <sstream>
-#include <stack>
-#include <utility>
-#include <vector>
-
-#define FOR(I,A,B) for(int I = (A); I < (B); ++I)
-#define REP(I,N)   FOR(I,0,N)
-#define ALL(A)     (A).begin(), (A).end()
-
-using namespace std;
+import static java.lang.Math.*;
+import static java.math.BigInteger.*;
+import static java.util.Arrays.*;
+import static java.util.Collections.*;
+import java.math.*;
+import java.util.*;
 
 // }}}
-const int SZ = 3001;
-class KSubstring
+
+public class KSubstring
 {
-public:
-    vector <int> seq;
-    int dp[SZ][SZ];
-    void populateSeq(int a, int x, int y, int m, int n) {
-        int curr = 0;
-        REP (i, n) {
-            if (i == 0) curr = a;
-            else {
-                curr = ((curr * x) % m + y ) %m;
-            }
-            seq.push_back(curr);
-        }
-    }
-    void populateDp(int n) {
-        REP (i , n) {
-            for (int j = 0; i + j < n; j++) {
-                if (j > 0) {
-                    dp[i][j] = dp[i][j-1];
-                } else {
-                    dp[i][j] = 0;
-                }
-                dp[i][j] += seq[j];
-            }
-        }
-    }
-    vector <int> findOptimal(int n) {
-        int mv = 1000000000, mk;
-        for (int i = 0; i < n; i++) {
-            for (int j = i + 1; j < n; j++) {
-                for (int k = 0; k + i < j && j + k < n; k++) {
-                    int v = abs(dp[i][k] - dp[j][k]);
-                    if (v < mv) {
-                        mv = v;
-                        mk = k;
-                    } else if (v == mv && k > mk) {
-                        mk = k;
-                    }
-                }
-            }
-        }
-        vector <int> res;
-        res.push_back(mk);
-        res.push_back(mv);
-        return res;
-    }
-	vector <int> maxSubstring(int A0, int X, int Y, int M, int n)
+	public int[] maxSubstring(int A0, int X, int Y, int M, int n)
 	{
-        populateSeq(A0, X, Y, M, n);
-        populateDp(n);
-		return findOptimal(n);
 	}
-};
+}
 
 
 // Edited by VimCoder 0.3.5
 // http://github.com/chazmcgarvey/vimcoder
+
