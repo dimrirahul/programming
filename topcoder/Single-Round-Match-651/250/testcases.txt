@@ -1,0 +1,35 @@
+"Alive"
+{".....",
+ ".###.",
+ "..S#.",
+ "...#."}
+"URURURURUR"
+"Dead"
+{".....",
+ ".###.",
+ "..S..",
+ "...#."}
+"URURURURUR"
+"Alive"
+{".....",
+ ".###.",
+ "..S..",
+ "...#."}
+"URURU"
+"Alive"
+{"#####",
+ "#...#",
+ "#.S.#",
+ "#...#",
+ "#####"}
+"DRULURLDRULRUDLRULDLRULDRLURLUUUURRRRDDLLDD"
+"Dead"
+{"#####",
+ "#...#",
+ "#.S.#",
+ "#...#",
+ "#.###"}
+"DRULURLDRULRUDLRULDLRULDRLURLUUUURRRRDDLLDD"
+"Dead"
+{"S"}
+"R"

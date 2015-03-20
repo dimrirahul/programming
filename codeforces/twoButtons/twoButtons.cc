@@ -11,18 +11,23 @@ typedef vector <int> VI;
 typedef vector <string> VS;
 
 typedef long long LL;
-class Agame {
+class twoButtons {
 public:
-    void start() {
-        int n1, n2;
-        cin >> n1 >> n2 ;
-        printf("%s\n", n1 > n2 ? "First": "Second");
-    }    
-    void thisIsTheShit() {
+    int solve(int n, int m) {
+        if (n == m) return 0;
+        if (n > m) return n-m;
+        if ( m % 2 == 1) return 1 + solve(n, m + 1);
+        return 1 + solve (n, m/2);
     }
+    void start() {
+        int t1, t2;
+        cin >> t1 >> t2;
+        int v = solve(t1, t2);
+        cout << v << "\n";
+    }    
 };
 
-Agame t;
+twoButtons t;
 
 int main(int argc, char **argv) {
     t.start();
