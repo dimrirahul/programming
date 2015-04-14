@@ -28,6 +28,10 @@ class Node {
             pid = o.pid;
             key = o.key;
         }
+
+        Node() {
+            id = w = lid = rid = pid = key = -1;
+        }
         
         bool operator<(Node o) const {
             return w < o.w;
@@ -57,7 +61,9 @@ class Huffman {
                 char c; int fq;
                 cin >> c >> fq;
                 int id = gId++;
-                store.insert(make_pair(id, Node(id, fq, c)));
+                Node n(id, fq, c);
+                store[n.id] = n;
+                //store.insert(make_pair(id, Node(id, fq, c)));
                 pq.push(Node(id, fq, c));
             }
            // printStore();
@@ -80,11 +86,9 @@ class Huffman {
                     Node n3(id, n1.w + n2.w, 'x');
                     n3.lid = n1.id; n1.pid = n3.id;
                     n3.rid = n2.id; n2.pid = n3.id;
-                    store.erase(n2.id);
-                    store.erase(n1.id);
-                    store.insert(make_pair(id, Node(n3)));
-                    store.insert(make_pair(n1.id, Node(n1)));
-                    store.insert(make_pair(n2.id, Node(n2)));
+                    store.erase(n2.id); store[n2.id] = n2;
+                    store.erase(n1.id); store[n1.id] = n1;
+                    store[n3.id] = n3;
                     pq.push(n3);
                 } else {
                     break;
