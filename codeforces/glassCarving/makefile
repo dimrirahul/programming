@@ -1,4 +1,4 @@
-CC=clang++-3.5 -Wall -g
+CC=clang++  -Wall -g
 
 all: glassCarving.o
 	$(CC) glassCarving.o -o outfile
