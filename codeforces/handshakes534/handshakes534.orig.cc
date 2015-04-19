@@ -18,18 +18,18 @@ typedef pair <int, int> PI;
 typedef vector <int> VI;
 typedef vector <string> VS;
 
-const int SZ = 2 * 1e5 + 4;
 typedef long long LL;
 class panagram {
     public:
-        VI idByHandshakes[SZ];
+        map <int, VI > idByHandshakes;
         int n;
 
         int searchAndErase(int key) {
             int res = -1;
-            if (idByHandshakes[key].size() == 0) return -1;
-            res = idByHandshakes[key][idByHandshakes[key].size() - 1];
-            idByHandshakes[key].erase(idByHandshakes[key].end() - 1);
+            map <int, VI>::iterator it = idByHandshakes.find(key);
+            res = (it->second)[(it->second).size() - 1];
+            (it->second).erase((it->second).end() - 1);
+            if ((it->second).size() == 0) idByHandshakes.erase(key);
             return res;
         }
 
@@ -37,16 +37,22 @@ class panagram {
             cin >> n;
             REP (i, n) {
                 int t; cin >> t;
-                idByHandshakes[t].push_back(i+1);
+                map <int, VI>::iterator it = idByHandshakes.find(t);
+                if (it != idByHandshakes.end()) (it->second).push_back(i+1);
+                else {
+                    vector <int> vt;
+                    vt.pb(i+1);
+                    idByHandshakes[t] = vt;
+                }
             }
             int curr = 0;
             bool feasible = true;
             vector <int> order;
             while (true) {
-                if (idByHandshakes[curr].size() > 0) {
+                if (idByHandshakes.count(curr)) {
                     order.pb(searchAndErase(curr));
                 } else {
-                    while (idByHandshakes[curr - 3].size() == 0 && curr >= 0) { 
+                    while (idByHandshakes.count(curr - 3) == 0 && curr >= 0) { 
                         curr -= 3;
                     }
                     if (curr >= 0) {
