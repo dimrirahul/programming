@@ -44,3 +44,7 @@ core
 driver.cc
 Problem.html
 driver
+
+#Java
+*.class
+.idea/
