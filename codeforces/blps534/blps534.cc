@@ -116,7 +116,6 @@ public:
             int t; cin >> t;
             orig[t]++;
         }
-        //if (M == 1) {cout << "0\n"; return;}
         int loops = getLoops();
         if (dbg) cout << "loops = " << loops << "\n";
         updateMod(loops);
