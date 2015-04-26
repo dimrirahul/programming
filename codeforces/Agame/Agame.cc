@@ -18,6 +18,8 @@ public:
         cin >> n1 >> n2 ;
         printf("%s\n", n1 > n2 ? "First": "Second");
     }    
+    void thisIsTheShit() {
+    }
 };
 
 Agame t;

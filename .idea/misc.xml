@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+<<<<<<< HEAD
   <component name="ClientPropertiesManager">
     <properties class="javax.swing.AbstractButton">
       <property name="hideActionText" class="java.lang.Boolean" />
@@ -68,6 +69,9 @@
   <component name="EntryPointsManager">
     <entry_points version="2.0" />
   </component>
+=======
+  <component name="CMakeWorkspace" PROJECT_DIR="$PROJECT_DIR$" />
+>>>>>>> fa111868d2eea6ade35d35514ce4f60e3c657b01
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
@@ -78,6 +82,7 @@
     <ConfirmationsSetting value="0" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
+<<<<<<< HEAD
   <component name="ProjectModuleManager">
     <modules />
   </component>
@@ -202,4 +207,7 @@
       </state>
     </states>
   </component>
+=======
+  <component name="ProjectRootManager" version="2" />
+>>>>>>> fa111868d2eea6ade35d35514ce4f60e3c657b01
 </project>

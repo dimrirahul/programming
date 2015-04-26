@@ -1,0 +1,8 @@
+"00110(1)"
+{"NYNN", "NNYY", "NNNY", "YNNN"}
+"(01)"
+{"NY", "YN"}
+"0(1)"
+{"NYYYY", "NNYYY", "NNNYY", "NNNNY", "YNNNN"}
+"010(1)"
+{"NYNNN", "NNYNN", "NNNYN", "NNNNY", "YNNYN"}
