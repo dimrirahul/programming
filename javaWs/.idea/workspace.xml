@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="83b07f94-50b9-4cfa-9a1d-42f0bddc6d78" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/nQueenProblem/Nqueen.java" afterPath="$PROJECT_DIR$/src/nQueenProblem/Nqueen.java" />
-    </list>
+    <list default="true" id="83b07f94-50b9-4cfa-9a1d-42f0bddc6d78" name="Default" comment="" />
     <ignored path="javaWs.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
