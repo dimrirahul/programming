@@ -34,6 +34,7 @@ public class Nqueen {
             }
             System.out.println();
         }
+        System.out.println("=============");
     }
 
     boolean areColliding(int r1, int c1, int r2, int c2) {
@@ -54,8 +55,11 @@ public class Nqueen {
             if (res) {
                 pos[boardSz - nq] = row;
                 if (isPossible(nq - 1)) {
-                    if (nq == boardSz) printPos();
-                    return res;
+                    if (nq == boardSz)  {
+                        printPos();
+                    } else {
+                        return res;
+                    }
                 }
             }
         }
@@ -63,7 +67,7 @@ public class Nqueen {
     }
 
     public static void main(String[] args) {
-        Nqueen nqueen = new Nqueen(2);
+        Nqueen nqueen = new Nqueen(4);
         nqueen.isPossible();
     }
 }
