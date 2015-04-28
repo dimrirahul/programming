@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
+      <module fileurl="file://$PROJECT_DIR$/javaWs/javaWs.iml" filepath="$PROJECT_DIR$/javaWs/javaWs.iml" />
+=======
       <module fileurl="file://$PROJECT_DIR$/.idea/gitRepo.iml" filepath="$PROJECT_DIR$/.idea/gitRepo.iml" />
+>>>>>>> fa111868d2eea6ade35d35514ce4f60e3c657b01
     </modules>
   </component>
 </project>
