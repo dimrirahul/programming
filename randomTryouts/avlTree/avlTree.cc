@@ -19,6 +19,7 @@ const int NO_PARENT = 8;
 
 class Node;
 typedef shared_ptr<Node> NodePtr;
+typedef pair <int, int> PI;
 
 class Node {
     public:
@@ -202,21 +203,57 @@ class AvlTree {
             }
         }
 
-
+        PI find(int key) {
+            int hops = 1;
+            NodePtr p = root;
+            bool found = false;
+            while (p != NULL && !found) {
+                if (p->key == key) {
+                    found = true;
+                } else if (key < p->key) {
+                    p = p->left;
+                    hops++;
+                } else {
+                    p = p->right;
+                    hops++;
+                }
+            }
+            return make_pair(found ? key : -1, hops);
+        }
 };
 
 AvlTree avlTree;
-int main(int argc, char **Argv) {
+
+vector<int> prepareInput() {
     vector<int> v;
-    v.push_back(50);
-    v.push_back(30);
-    v.push_back(45);
-    v.push_back(47);
-    for (int i = 1; i < 65; i++) {
-        avlTree.insert(i);
-        cout << "\n";
-        avlTree.printInorder();
+    for (int i = 0; i < 300; i++) {
+        v.push_back(rand());
     }
+    return v;
+}
+int main(int argc, char **Argv) {
+    vector<int> v = prepareInput();
+    for (int i = 0; i < v.size(); i++) {
+        avlTree.insert(v[i]);
+    }
+    int log = 0;
+    int sz = v.size();
+    while (sz > 0) {
+        log++;
+        sz = sz >> 1;
+    }
+    log++;
+    for (int i = 0; i < v.size(); i++) {
+        int index = rand() % v.size();
+        PI p = avlTree.find(v[index]);
+        if (p.first < 0) {
+            cout << "Shits fucked up lookup failed \n";
+        }
+        if (p.second > log) {
+            cout << " Avl Tree fucked up, size is greater than log deplth = " << p.second << " " << " log = " << log << "\n";
+        }
+    }
+    avlTree.printInorder();
     return 0;
 }
 
