@@ -2,6 +2,7 @@
 #include <memory>
 #include <vector>
 #include <algorithm>
+#include <cstdio>
 
 
 using namespace std;
@@ -11,6 +12,10 @@ const int LEFT_RIGHT = 3;
 const int RIGHT_RIGHT = 4;
 const int RIGHT_LEFT = 5;
 const int INVALID_KEY = -1;
+
+const int LEFT_CHILD = 6;
+const int RIGHT_CHILD = 7;
+const int NO_PARENT = 8;
 
 class Node;
 typedef shared_ptr<Node> NodePtr;
@@ -23,13 +28,13 @@ class Node {
         Node(int _key) {
             key = _key;
             parent = left = right = NULL;
-            height = 0;
+            height = 1;
         }
 
         Node() {
             key = INVALID_KEY;
             parent = left = right = NULL;
-            height = 0;
+            height = 1;
         }
 
         static NodePtr getNewNode(int key) {
@@ -41,15 +46,19 @@ class Node {
         }
 
         int getHeightLeft() {
-            return left == NULL ? -1: left->height;
+            return left == NULL ? 0: left->height;
         }
 
         int getHeightRight() {
-            return right == NULL ? -1: right->height;
+            return right == NULL ? 0: right->height;
         }
 
         int getBalance() {
             return getHeightLeft() - getHeightRight();
+        }
+
+        void print() {
+            printf("[key=%d, height=%d, balance=%d]\t", key, height, getBalance());
         }
 
 };
@@ -65,7 +74,7 @@ class AvlTree {
             }
             NodePtr t = root;
             NodePtr p = NULL;
-            while(t != NULL) {
+            while (t != NULL) {
                 p = t;
                 if (key <= t->key) {
                     t = t->left;
@@ -81,6 +90,7 @@ class AvlTree {
             node->parent = p;
             while (p != NULL) {
                 p = balance(p);
+                root = p;
                 p = p->parent;
             }
             return root;
@@ -100,36 +110,65 @@ class AvlTree {
 
         NodePtr balance(NodePtr p) {
             int v = getBalanceType(p);
-            if (v == BALANCED) return p;
-            if (v == RIGHT_RIGHT) return balanceRightRight(p);
-            if (v == RIGHT_LEFT) return balanceRightLeft(p);
-            if (v == LEFT_LEFT) return balanceLeftLeft(p);
-            return balanceLeftRight(p);
+            if (v == RIGHT_RIGHT) { p = balanceRightRight(p);}
+            if (v == RIGHT_LEFT) { p = balanceRightLeft(p);}
+            if (v == LEFT_LEFT) { p = balanceLeftLeft(p);}
+            if (v == LEFT_RIGHT) { p = balanceLeftRight(p);}
+            p->update();
+            return p;
         }
 
+        int isLeftOrRight(NodePtr node) {
+            NodePtr parent = node->parent;
+            int res = NO_PARENT;
+            if (parent != NULL && parent->left == node) {
+                res = LEFT_CHILD;
+            } else if (parent != NULL && parent->right == node) {
+                res = RIGHT_CHILD;
+            }
+            return res;
+        }
+            
+
         NodePtr rotateLeft(NodePtr node) {
+            int childType = isLeftOrRight(node);
             NodePtr right = node->right;
             right->parent = node->parent;
             node->right = right->left;
             right->left = node;
+            if (childType == LEFT_CHILD) {
+                right->parent->left =  right;
+            } else if (childType == RIGHT_CHILD) {
+                right->parent->right = right;
+            }
 
             node->parent = right;
-            if (node->left != NULL) {
-                node->left->parent = node;
+            if (node->right != NULL) {
+                node->right->parent = node;
             }
+            node->update();
+            right->update();
             return right;
         }
 
         NodePtr rotateRight(NodePtr node) {
+            int childType = isLeftOrRight(node);
             NodePtr left = node->left;
             left->parent = node->parent;
-            left->right = node->left;
+            node->left = left->right;
             left->right = node;
+            if (childType == LEFT_CHILD) {
+                left->parent->left =  left;
+            } else if (childType == RIGHT_CHILD) {
+                left->parent->right = left;
+            }
 
             node->parent = left;
-            if (node->left) {
+            if (node->left != NULL) {
                 node->left->parent =  node;
             }
+            node->update();
+            left->update();
             return left;
         }
 
@@ -151,10 +190,33 @@ class AvlTree {
             return rotateRight(p);
         }
 
+        void printInorder() {
+            printInorder(root);
+        }
+
+        void printInorder(NodePtr p) {
+            if (p != NULL) {
+                p->print();
+                printInorder(p->left);
+                printInorder(p->right);
+            }
+        }
+
+
 };
 
 AvlTree avlTree;
 int main(int argc, char **Argv) {
-
+    vector<int> v;
+    v.push_back(50);
+    v.push_back(30);
+    v.push_back(45);
+    v.push_back(47);
+    for (int i = 1; i < 65; i++) {
+        avlTree.insert(i);
+        cout << "\n";
+        avlTree.printInorder();
+    }
+    return 0;
 }
 
