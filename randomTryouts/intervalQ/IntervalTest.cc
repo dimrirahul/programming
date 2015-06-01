@@ -46,7 +46,7 @@ pair <VI, int> t2Input() {
 }
 
 int main(int argc, char **argv) {
-    pair <VI, int> p = t2Input();
+    pair <VI, int> p = t1Input();
     updateInterval(p.first, p.second);
     for (int i = 0; i < p.first.size(); i++)  {
         printf("[%d * %d = %d , val in arr = %d]\n", p.second, i+1, p.second * (i+1), p.first[i]);

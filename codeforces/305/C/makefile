@@ -1,4 +1,4 @@
-CC=clang++-3.5 -Wall -g
+CC=clang++ -Wall -g
 
 all: C.o
 	$(CC) C.o -o outfile
