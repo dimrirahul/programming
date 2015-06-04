@@ -1,8 +1,4 @@
-
-#include <cstdio>
-#include <iostream>
-#include <vector>
-#include <map>
+#include<bits/stdc++.h>
 
 #define FOR(I,A,B) for(int I = (A); I < (B); ++I)
 #define FORU(I,A,B) for(unsigned int I = (A); I < (B); ++I)
@@ -17,15 +13,14 @@ typedef vector <int> VI;
 typedef vector <string> VS;
 
 typedef long long LL;
-const bool dbg = !true;
-class D {
+class 305 {
 public:
 
     void start() {
     }    
 };
 
-D t;
+305 t;
 
 int main(int argc, char **argv) {
     t.start();
