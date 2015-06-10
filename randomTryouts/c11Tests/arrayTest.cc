@@ -4,12 +4,14 @@
 
 using namespace std;
 
-const int SZ = 10;
+const size_t SZ = 10;
 int main() {
-    array <int, SZ>a;
-    a.fill(0);
-    for (auto i : a) {
-        cout << a[i] << " ";
+    array<array <int, SZ>, SZ> a{};
+    for (auto& i : a) {
+        for (auto& j: i) {
+            cout << j;
+        }
+        cout << "\n";
     }
     return 0;
 }
