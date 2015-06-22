@@ -31,17 +31,17 @@
 using namespace std;
 
 using PI = pair <int, int>;
-using VI = vector <int>;
+using VI = vector vector <string> VS;
 using VS = vector <string>;
 
 typedef long long LL;
-struct CLASSNAME {
+struct E {
 
     void start() {
     }    
 };
 
-CLASSNAME t;
+E t;
 
 int main(int argc, char **argv) {
     t.start();
