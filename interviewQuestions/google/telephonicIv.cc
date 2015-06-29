@@ -76,7 +76,7 @@ int main(int argc, char **argv) {
     for (; v.size() < numElements;) {
         v.insert(rand() % 100);
     }
-    vector<int> inputNos {0, 1, 2, 45, 46, 50, 55, 99};
+    vector<int> inputNos {0, 1, 2, 45, 46, 50, 55};
     //inputNos.insert(inputNos.begin(), v.begin(), v.end());
     printRes(inputNos);
     printResOptimal(inputNos);
