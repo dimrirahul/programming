@@ -1,4 +1,4 @@
-CC=g++ -Wall -g
+CC=g++ -Wall -g -std=c++0x
 
 all: E.o
 	$(CC) E.o -o outfile

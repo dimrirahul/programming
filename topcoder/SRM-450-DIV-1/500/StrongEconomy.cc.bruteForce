@@ -1,0 +1,91 @@
+
+// {{{ Boilerplate Code <--------------------------------------------------
+// vim:filetype=cpp:foldmethod=marker:foldmarker={{{,}}}
+
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <deque>
+#include <functional>
+#include <iomanip>
+#include <iostream>
+#include <list>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <set>
+#include <sstream>
+#include <stack>
+#include <utility>
+#include <vector>
+
+#define FOR(I,A,B) for(int I = (A); I < (B); ++I)
+#define REP(I,N)   FOR(I,0,N)
+#define ALL(A)     (A).begin(), (A).end()
+
+using namespace std;
+
+// }}}
+
+using LL = long long;
+
+struct Key {
+    LL n, k, c;
+    Key(int _n, int _k, int _c): n(_n), k(_k), c(_c){}
+    bool operator < (Key o) const {
+        if (n != o.n) return n < o.n;
+        if (k != o.k) return k < o.k;
+        return c < o.c;
+    }
+};
+
+using MP = map<Key, LL>;
+const bool dbg = !true;
+class StrongEconomy
+{
+public:
+        int p, t;
+        MP mp;
+
+        LL solve1(LL n, LL k, LL c) {
+            LL loop = (p - c)/ (n * k);
+            if (loop * n * k < p-c) loop++;
+            return loop + solve2(n, k, c + (loop * n * k));
+        }
+
+        LL solve2(LL n, LL k, LL c) {
+            LL v1 = 1 + s(n+1, k, c - p + (k * (n + 1)));
+            LL v2 = 1 + s(n, k+1, c - p + (n * (k + 1)));
+            LL v3 = 1 + s(n, k, c + (n * k));
+            return min(v1, min(v2, v3));
+            //return min(v1, v2);
+        }
+
+        LL solve3(LL n, LL k, LL c) {
+            LL v1 = solve2(n, k, c);
+            LL v2 = 1 + s(n+1, k+1, c - (2*p) + ((n+1) * (k+1)));
+            return min(v1, v2);
+        }
+
+        LL s(LL n, LL k, LL c) {
+            if (c >= t) return 0;
+            Key key(n, k, c);
+            auto it = mp.find(key);
+            if (it != mp.end()) return it->second;
+            LL res = -1;
+            if (c < p) res = solve1(n, k, c);
+            else if (c >= p && c < 2 * p) res = solve2(n, k, c);
+            else res = solve3(n, k, c);
+            mp[key] = res;
+            return res;
+        }
+	long long earn(long long n, long long k, long long price, long long target)
+	{
+                p = price; t = target;
+		return s(n, k, 0);
+	}
+};
+

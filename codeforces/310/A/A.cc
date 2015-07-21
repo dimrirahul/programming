@@ -34,14 +34,41 @@ using PI = pair <int, int>;
 using VI = vector <int>;
 using VS = vector <string>;
 
+const bool dbg = !true;
 typedef long long LL;
-struct E {
+struct A {
+
+    int pp(VI &inp) {
+        stack<int> stk;
+        REP(i, inp.size()) {
+            if (!stk.empty()) {
+                int t = stk.top();
+                if (t != inp[i]) {
+                    stk.pop();
+                } else {
+                    stk.push(inp[i]);
+                }
+            } else {
+                stk.push(inp[i]);
+            }
+        }
+        return stk.size();
+    }
 
     void start() {
+        int t; cin >> t;
+        string s1;
+        cin >> s1;
+        VI vi;
+        REP(i, s1.size()) {
+            if (s1[i] == '0') vi.push_back(0);
+            else vi.push_back(1);
+        }
+        cout << pp(vi) << "\n";
     }    
 };
 
-E t;
+A t;
 
 int main(int argc, char **argv) {
     t.start();

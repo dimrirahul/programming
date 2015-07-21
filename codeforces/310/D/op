@@ -1,0 +1,321 @@
+In file included from /usr/include/c++/4.9/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/4.9/algorithm:61,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/predefined_ops.h: In instantiation of ‘bool __gnu_cxx::__ops::_Iter_less_val::operator()(_Iterator, _Value&) const [with _Iterator = std::_Rb_tree_iterator<std::pair<const long long int, std::vector<int> > >; _Value = const long long int]’:
+/usr/include/c++/4.9/bits/stl_algobase.h:965:30:   required from ‘_ForwardIterator std::__lower_bound(_ForwardIterator, _ForwardIterator, const _Tp&, _Compare) [with _ForwardIterator = std::_Rb_tree_iterator<std::pair<const long long int, std::vector<int> > >; _Tp = long long int; _Compare = __gnu_cxx::__ops::_Iter_less_val]’
+/usr/include/c++/4.9/bits/stl_algobase.h:1000:40:   required from ‘_ForwardIterator std::lower_bound(_ForwardIterator, _ForwardIterator, const _Tp&) [with _ForwardIterator = std::_Rb_tree_iterator<std::pair<const long long int, std::vector<int> > >; _Tp = long long int]’
+D.cc:84:78:   required from here
+/usr/include/c++/4.9/bits/predefined_ops.h:54:22: error: no match for ‘operator<’ (operand types are ‘std::pair<const long long int, std::vector<int> >’ and ‘const long long int’)
+       { return *__it < __val; }
+                      ^
+/usr/include/c++/4.9/bits/predefined_ops.h:54:22: note: candidates are:
+In file included from /usr/include/c++/4.9/bits/stl_algobase.h:67:0,
+                 from /usr/include/c++/4.9/algorithm:61,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/stl_iterator.h:837:5: note: template<class _IteratorL, class _IteratorR, class _Container> bool __gnu_cxx::operator<(const __gnu_cxx::__normal_iterator<_IteratorL, _Container>&, const __gnu_cxx::__normal_iterator<_IteratorR, _Container>&)
+     operator<(const __normal_iterator<_IteratorL, _Container>& __lhs,
+     ^
+/usr/include/c++/4.9/bits/stl_iterator.h:837:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/4.9/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/4.9/algorithm:61,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/predefined_ops.h:54:22: note:   ‘std::pair<const long long int, std::vector<int> >’ is not derived from ‘const __gnu_cxx::__normal_iterator<_IteratorL, _Container>’
+       { return *__it < __val; }
+                      ^
+In file included from /usr/include/c++/4.9/bits/stl_algobase.h:67:0,
+                 from /usr/include/c++/4.9/algorithm:61,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/stl_iterator.h:844:5: note: template<class _Iterator, class _Container> bool __gnu_cxx::operator<(const __gnu_cxx::__normal_iterator<_Iterator, _Container>&, const __gnu_cxx::__normal_iterator<_Iterator, _Container>&)
+     operator<(const __normal_iterator<_Iterator, _Container>& __lhs,
+     ^
+/usr/include/c++/4.9/bits/stl_iterator.h:844:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/4.9/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/4.9/algorithm:61,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/predefined_ops.h:54:22: note:   ‘std::pair<const long long int, std::vector<int> >’ is not derived from ‘const __gnu_cxx::__normal_iterator<_Iterator, _Container>’
+       { return *__it < __val; }
+                      ^
+In file included from /usr/include/c++/4.9/stack:61:0,
+                 from D.cc:20:
+/usr/include/c++/4.9/bits/stl_stack.h:264:5: note: template<class _Tp, class _Seq> bool std::operator<(const std::stack<_Tp, _Seq>&, const std::stack<_Tp, _Seq>&)
+     operator<(const stack<_Tp, _Seq>& __x, const stack<_Tp, _Seq>& __y)
+     ^
+/usr/include/c++/4.9/bits/stl_stack.h:264:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/4.9/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/4.9/algorithm:61,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/predefined_ops.h:54:22: note:   ‘std::pair<const long long int, std::vector<int> >’ is not derived from ‘const std::stack<_Tp, _Seq>’
+       { return *__it < __val; }
+                      ^
+In file included from /usr/include/c++/4.9/set:62:0,
+                 from D.cc:18:
+/usr/include/c++/4.9/bits/stl_multiset.h:794:5: note: template<class _Key, class _Compare, class _Alloc> bool std::operator<(const std::multiset<_Key, _Compare, _Alloc>&, const std::multiset<_Key, _Compare, _Alloc>&)
+     operator<(const multiset<_Key, _Compare, _Alloc>& __x,
+     ^
+/usr/include/c++/4.9/bits/stl_multiset.h:794:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/4.9/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/4.9/algorithm:61,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/predefined_ops.h:54:22: note:   ‘std::pair<const long long int, std::vector<int> >’ is not derived from ‘const std::multiset<_Key, _Compare, _Alloc>’
+       { return *__it < __val; }
+                      ^
+In file included from /usr/include/c++/4.9/set:61:0,
+                 from D.cc:18:
+/usr/include/c++/4.9/bits/stl_set.h:810:5: note: template<class _Key, class _Compare, class _Alloc> bool std::operator<(const std::set<_Key, _Compare, _Alloc>&, const std::set<_Key, _Compare, _Alloc>&)
+     operator<(const set<_Key, _Compare, _Alloc>& __x,
+     ^
+/usr/include/c++/4.9/bits/stl_set.h:810:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/4.9/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/4.9/algorithm:61,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/predefined_ops.h:54:22: note:   ‘std::pair<const long long int, std::vector<int> >’ is not derived from ‘const std::set<_Key, _Compare, _Alloc>’
+       { return *__it < __val; }
+                      ^
+In file included from /usr/include/c++/4.9/queue:64:0,
+                 from D.cc:17:
+/usr/include/c++/4.9/bits/stl_queue.h:289:5: note: template<class _Tp, class _Seq> bool std::operator<(const std::queue<_Tp, _Seq>&, const std::queue<_Tp, _Seq>&)
+     operator<(const queue<_Tp, _Seq>& __x, const queue<_Tp, _Seq>& __y)
+     ^
+/usr/include/c++/4.9/bits/stl_queue.h:289:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/4.9/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/4.9/algorithm:61,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/predefined_ops.h:54:22: note:   ‘std::pair<const long long int, std::vector<int> >’ is not derived from ‘const std::queue<_Tp, _Seq>’
+       { return *__it < __val; }
+                      ^
+In file included from /usr/include/c++/4.9/map:62:0,
+                 from D.cc:15:
+/usr/include/c++/4.9/bits/stl_multimap.h:920:5: note: template<class _Key, class _Tp, class _Compare, class _Alloc> bool std::operator<(const std::multimap<_Key, _Tp, _Compare, _Alloc>&, const std::multimap<_Key, _Tp, _Compare, _Alloc>&)
+     operator<(const multimap<_Key, _Tp, _Compare, _Alloc>& __x,
+     ^
+/usr/include/c++/4.9/bits/stl_multimap.h:920:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/4.9/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/4.9/algorithm:61,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/predefined_ops.h:54:22: note:   ‘std::pair<const long long int, std::vector<int> >’ is not derived from ‘const std::multimap<_Key, _Tp, _Compare, _Alloc>’
+       { return *__it < __val; }
+                      ^
+In file included from /usr/include/c++/4.9/map:61:0,
+                 from D.cc:15:
+/usr/include/c++/4.9/bits/stl_map.h:1017:5: note: template<class _Key, class _Tp, class _Compare, class _Alloc> bool std::operator<(const std::map<_Key, _Tp, _Compare, _Alloc>&, const std::map<_Key, _Tp, _Compare, _Alloc>&)
+     operator<(const map<_Key, _Tp, _Compare, _Alloc>& __x,
+     ^
+/usr/include/c++/4.9/bits/stl_map.h:1017:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/4.9/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/4.9/algorithm:61,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/predefined_ops.h:54:22: note:   ‘std::pair<const long long int, std::vector<int> >’ is not derived from ‘const std::map<_Key, _Tp, _Compare, _Alloc>’
+       { return *__it < __val; }
+                      ^
+In file included from /usr/include/c++/4.9/map:60:0,
+                 from D.cc:15:
+/usr/include/c++/4.9/bits/stl_tree.h:980:5: note: template<class _Key, class _Val, class _KeyOfValue, class _Compare, class _Alloc> bool std::operator<(const std::_Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>&, const std::_Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>&)
+     operator<(const _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>& __x,
+     ^
+/usr/include/c++/4.9/bits/stl_tree.h:980:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/4.9/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/4.9/algorithm:61,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/predefined_ops.h:54:22: note:   ‘std::pair<const long long int, std::vector<int> >’ is not derived from ‘const std::_Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>’
+       { return *__it < __val; }
+                      ^
+In file included from /usr/include/c++/4.9/list:63:0,
+                 from D.cc:14:
+/usr/include/c++/4.9/bits/stl_list.h:1758:5: note: template<class _Tp, class _Alloc> bool std::operator<(const std::list<_Tp, _Alloc>&, const std::list<_Tp, _Alloc>&)
+     operator<(const list<_Tp, _Alloc>& __x, const list<_Tp, _Alloc>& __y)
+     ^
+/usr/include/c++/4.9/bits/stl_list.h:1758:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/4.9/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/4.9/algorithm:61,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/predefined_ops.h:54:22: note:   ‘std::pair<const long long int, std::vector<int> >’ is not derived from ‘const std::list<_Tp, _Alloc>’
+       { return *__it < __val; }
+                      ^
+In file included from /usr/include/c++/4.9/functional:55:0,
+                 from D.cc:11:
+/usr/include/c++/4.9/tuple:859:5: note: template<class ... _TElements, class ... _UElements> constexpr bool std::operator<(const std::tuple<_Elements ...>&, const std::tuple<_Elements ...>&)
+     operator<(const tuple<_TElements...>& __t,
+     ^
+/usr/include/c++/4.9/tuple:859:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/4.9/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/4.9/algorithm:61,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/predefined_ops.h:54:22: note:   ‘std::pair<const long long int, std::vector<int> >’ is not derived from ‘const std::tuple<_Elements ...>’
+       { return *__it < __val; }
+                      ^
+In file included from /usr/include/c++/4.9/tuple:39:0,
+                 from /usr/include/c++/4.9/functional:55,
+                 from D.cc:11:
+/usr/include/c++/4.9/array:242:5: note: template<class _Tp, long unsigned int _Nm> bool std::operator<(const std::array<_Tp, _Nm>&, const std::array<_Tp, _Nm>&)
+     operator<(const array<_Tp, _Nm>& __a, const array<_Tp, _Nm>& __b)
+     ^
+/usr/include/c++/4.9/array:242:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/4.9/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/4.9/algorithm:61,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/predefined_ops.h:54:22: note:   ‘std::pair<const long long int, std::vector<int> >’ is not derived from ‘const std::array<_Tp, _Nm>’
+       { return *__it < __val; }
+                      ^
+In file included from /usr/include/c++/4.9/deque:64:0,
+                 from D.cc:9:
+/usr/include/c++/4.9/bits/stl_deque.h:2047:5: note: template<class _Tp, class _Alloc> bool std::operator<(const std::deque<_Tp, _Alloc>&, const std::deque<_Tp, _Alloc>&)
+     operator<(const deque<_Tp, _Alloc>& __x,
+     ^
+/usr/include/c++/4.9/bits/stl_deque.h:2047:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/4.9/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/4.9/algorithm:61,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/predefined_ops.h:54:22: note:   ‘std::pair<const long long int, std::vector<int> >’ is not derived from ‘const std::deque<_Tp, _Alloc>’
+       { return *__it < __val; }
+                      ^
+In file included from /usr/include/c++/4.9/deque:64:0,
+                 from D.cc:9:
+/usr/include/c++/4.9/bits/stl_deque.h:285:5: note: template<class _Tp, class _RefL, class _PtrL, class _RefR, class _PtrR> bool std::operator<(const std::_Deque_iterator<_Tp, _Ref, _Ptr>&, const std::_Deque_iterator<_Tp, _RefR, _PtrR>&)
+     operator<(const _Deque_iterator<_Tp, _RefL, _PtrL>& __x,
+     ^
+/usr/include/c++/4.9/bits/stl_deque.h:285:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/4.9/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/4.9/algorithm:61,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/predefined_ops.h:54:22: note:   ‘std::pair<const long long int, std::vector<int> >’ is not derived from ‘const std::_Deque_iterator<_Tp, _Ref, _Ptr>’
+       { return *__it < __val; }
+                      ^
+In file included from /usr/include/c++/4.9/deque:64:0,
+                 from D.cc:9:
+/usr/include/c++/4.9/bits/stl_deque.h:277:5: note: template<class _Tp, class _Ref, class _Ptr> bool std::operator<(const std::_Deque_iterator<_Tp, _Ref, _Ptr>&, const std::_Deque_iterator<_Tp, _Ref, _Ptr>&)
+     operator<(const _Deque_iterator<_Tp, _Ref, _Ptr>& __x,
+     ^
+/usr/include/c++/4.9/bits/stl_deque.h:277:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/4.9/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/4.9/algorithm:61,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/predefined_ops.h:54:22: note:   ‘std::pair<const long long int, std::vector<int> >’ is not derived from ‘const std::_Deque_iterator<_Tp, _Ref, _Ptr>’
+       { return *__it < __val; }
+                      ^
+In file included from /usr/include/c++/4.9/vector:64:0,
+                 from /usr/include/c++/4.9/bits/random.h:34,
+                 from /usr/include/c++/4.9/random:49,
+                 from /usr/include/c++/4.9/bits/stl_algo.h:66,
+                 from /usr/include/c++/4.9/algorithm:62,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/stl_vector.h:1528:5: note: template<class _Tp, class _Alloc> bool std::operator<(const std::vector<_Tp, _Alloc>&, const std::vector<_Tp, _Alloc>&)
+     operator<(const vector<_Tp, _Alloc>& __x, const vector<_Tp, _Alloc>& __y)
+     ^
+/usr/include/c++/4.9/bits/stl_vector.h:1528:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/4.9/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/4.9/algorithm:61,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/predefined_ops.h:54:22: note:   ‘std::pair<const long long int, std::vector<int> >’ is not derived from ‘const std::vector<_Tp, _Alloc>’
+       { return *__it < __val; }
+                      ^
+In file included from /usr/include/c++/4.9/string:52:0,
+                 from /usr/include/c++/4.9/random:40,
+                 from /usr/include/c++/4.9/bits/stl_algo.h:66,
+                 from /usr/include/c++/4.9/algorithm:62,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/basic_string.h:2612:5: note: template<class _CharT, class _Traits, class _Alloc> bool std::operator<(const _CharT*, const std::basic_string<_CharT, _Traits, _Alloc>&)
+     operator<(const _CharT* __lhs,
+     ^
+/usr/include/c++/4.9/bits/basic_string.h:2612:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/4.9/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/4.9/algorithm:61,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/predefined_ops.h:54:22: note:   mismatched types ‘const _CharT*’ and ‘std::pair<const long long int, std::vector<int> >’
+       { return *__it < __val; }
+                      ^
+In file included from /usr/include/c++/4.9/string:52:0,
+                 from /usr/include/c++/4.9/random:40,
+                 from /usr/include/c++/4.9/bits/stl_algo.h:66,
+                 from /usr/include/c++/4.9/algorithm:62,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/basic_string.h:2600:5: note: template<class _CharT, class _Traits, class _Alloc> bool std::operator<(const std::basic_string<_CharT, _Traits, _Alloc>&, const _CharT*)
+     operator<(const basic_string<_CharT, _Traits, _Alloc>& __lhs,
+     ^
+/usr/include/c++/4.9/bits/basic_string.h:2600:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/4.9/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/4.9/algorithm:61,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/predefined_ops.h:54:22: note:   ‘std::pair<const long long int, std::vector<int> >’ is not derived from ‘const std::basic_string<_CharT, _Traits, _Alloc>’
+       { return *__it < __val; }
+                      ^
+In file included from /usr/include/c++/4.9/string:52:0,
+                 from /usr/include/c++/4.9/random:40,
+                 from /usr/include/c++/4.9/bits/stl_algo.h:66,
+                 from /usr/include/c++/4.9/algorithm:62,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/basic_string.h:2588:5: note: template<class _CharT, class _Traits, class _Alloc> bool std::operator<(const std::basic_string<_CharT, _Traits, _Alloc>&, const std::basic_string<_CharT, _Traits, _Alloc>&)
+     operator<(const basic_string<_CharT, _Traits, _Alloc>& __lhs,
+     ^
+/usr/include/c++/4.9/bits/basic_string.h:2588:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/4.9/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/4.9/algorithm:61,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/predefined_ops.h:54:22: note:   ‘std::pair<const long long int, std::vector<int> >’ is not derived from ‘const std::basic_string<_CharT, _Traits, _Alloc>’
+       { return *__it < __val; }
+                      ^
+In file included from /usr/include/c++/4.9/bits/stl_algobase.h:67:0,
+                 from /usr/include/c++/4.9/algorithm:61,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/stl_iterator.h:1078:5: note: template<class _Iterator> bool std::operator<(const std::move_iterator<_Iterator>&, const std::move_iterator<_Iterator>&)
+     operator<(const move_iterator<_Iterator>& __x,
+     ^
+/usr/include/c++/4.9/bits/stl_iterator.h:1078:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/4.9/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/4.9/algorithm:61,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/predefined_ops.h:54:22: note:   ‘std::pair<const long long int, std::vector<int> >’ is not derived from ‘const std::move_iterator<_Iterator>’
+       { return *__it < __val; }
+                      ^
+In file included from /usr/include/c++/4.9/bits/stl_algobase.h:67:0,
+                 from /usr/include/c++/4.9/algorithm:61,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/stl_iterator.h:1072:5: note: template<class _IteratorL, class _IteratorR> bool std::operator<(const std::move_iterator<_Iterator>&, const std::move_iterator<_IteratorR>&)
+     operator<(const move_iterator<_IteratorL>& __x,
+     ^
+/usr/include/c++/4.9/bits/stl_iterator.h:1072:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/4.9/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/4.9/algorithm:61,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/predefined_ops.h:54:22: note:   ‘std::pair<const long long int, std::vector<int> >’ is not derived from ‘const std::move_iterator<_Iterator>’
+       { return *__it < __val; }
+                      ^
+In file included from /usr/include/c++/4.9/bits/stl_algobase.h:67:0,
+                 from /usr/include/c++/4.9/algorithm:61,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/stl_iterator.h:348:5: note: template<class _IteratorL, class _IteratorR> bool std::operator<(const std::reverse_iterator<_Iterator>&, const std::reverse_iterator<_IteratorR>&)
+     operator<(const reverse_iterator<_IteratorL>& __x,
+     ^
+/usr/include/c++/4.9/bits/stl_iterator.h:348:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/4.9/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/4.9/algorithm:61,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/predefined_ops.h:54:22: note:   ‘std::pair<const long long int, std::vector<int> >’ is not derived from ‘const std::reverse_iterator<_Iterator>’
+       { return *__it < __val; }
+                      ^
+In file included from /usr/include/c++/4.9/bits/stl_algobase.h:67:0,
+                 from /usr/include/c++/4.9/algorithm:61,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/stl_iterator.h:298:5: note: template<class _Iterator> bool std::operator<(const std::reverse_iterator<_Iterator>&, const std::reverse_iterator<_Iterator>&)
+     operator<(const reverse_iterator<_Iterator>& __x,
+     ^
+/usr/include/c++/4.9/bits/stl_iterator.h:298:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/4.9/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/4.9/algorithm:61,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/predefined_ops.h:54:22: note:   ‘std::pair<const long long int, std::vector<int> >’ is not derived from ‘const std::reverse_iterator<_Iterator>’
+       { return *__it < __val; }
+                      ^
+In file included from /usr/include/c++/4.9/utility:70:0,
+                 from /usr/include/c++/4.9/algorithm:60,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/stl_pair.h:220:5: note: template<class _T1, class _T2> constexpr bool std::operator<(const std::pair<_T1, _T2>&, const std::pair<_T1, _T2>&)
+     operator<(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
+     ^
+/usr/include/c++/4.9/bits/stl_pair.h:220:5: note:   template argument deduction/substitution failed:
+In file included from /usr/include/c++/4.9/bits/stl_algobase.h:71:0,
+                 from /usr/include/c++/4.9/algorithm:61,
+                 from D.cc:1:
+/usr/include/c++/4.9/bits/predefined_ops.h:54:22: note:   mismatched types ‘const std::pair<_T1, _T2>’ and ‘const long long int’
+       { return *__it < __val; }
+                      ^
+make: *** [D.o] Error 1

@@ -35,13 +35,13 @@ using VI = vector <int>;
 using VS = vector <string>;
 
 typedef long long LL;
-struct E {
+struct B {
 
     void start() {
     }    
 };
 
-E t;
+B t;
 
 int main(int argc, char **argv) {
     t.start();

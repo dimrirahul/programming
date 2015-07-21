@@ -43,16 +43,45 @@ struct D {
         VPI res;
         int dy = b.second - a.second;
         int dx = b.first - a.first;
-        for (int i = -100; i <= 100; i++) {
-            int t1 = dy * (i - a.first);
-            if ((t1 % dx) != 0) continue;
-            t1 /= dx;
-            int y = t1 + a.second;
-            if (abs(y) <= 100) res.push_back(i, y);
+        if (dx != 0) {
+            for (int i = -100; i <= 100; i++) {
+                int t1 = dy * (i - a.first);
+                if ((t1 % dx) != 0) continue;
+                t1 /= dx;
+                int y = t1 + a.second;
+                if (abs(y) <= 100) res.push_back(make_pair(i, y));
+            }
+        } else {
+            for (int i = -100; i <= 100; i++) res.push_back(make_pair(a.first, i));
         }
         return res;
     }
 
+    VPI filterColinerPts(VPI& sortedPts, VPI& input) {
+        VPI res;
+        for (auto& i: input) {
+            auto iter = lower_bound(ALL(sortedPts), i);
+            if (*iter == i) res.insert(end(res), i);
+        }
+        return res;
+    }
+
+    LL nC3(LL p) {
+        return  (p * (p-1) * (p-2))/ 6;
+    }
+
+    void insertPairIntoVisitedMap(set<pair<PI, PI>>& s, const PI& p1, const PI& p2) {
+        s.insert(make_pair(p1, p2));
+        s.insert(make_pair(p2, p1));
+    }
+
+    void generatePairwisePts(VPI& pts, set<pair<PI, PI>>& s) {
+        for (int i = 0; i < pts.size(); i++) {
+            for (int j = i+1; j < pts.size(); j++) {
+                insertPairIntoVisitedMap(s, pts[i], pts[j]);
+            }
+        }
+    }
 
     void start() {
         int t ; cin >> t;
@@ -63,22 +92,14 @@ struct D {
             pts.push_back(make_pair(t2, t3));
         }
         sort(ALL(pts));
-        int res = 0;
-        int sp = 0;
+        auto res = nC3(pts.size());
         for (int i = 0; i < pts.size(); i++) {
             for (int j = i+1; j < pts.size(); j++) {
                 if (visited.count(make_pair(pts[i], pts[j])) > 0) continue;
                 VPI clPts = generateColinearPts(pts[i], pts[j]);
-                for (auto p: clPts) {
-                    auto ptr = lower_bound(ALL(pts), p);
-                    if (*ptr == p) {
-                        sp++;
-                        visited.insert(make_pair(p, pts[i]));
-                        visited.insert(make_pair(pts[i], p));
-                        visited.insert(make_pair(p, pts[j]));
-                        visited.insert(make_pair(pts[j], p));
-                    }
-                }
+                clPts = filterColinerPts(pts, clPts);
+                generatePairwisePts(clPts, visited);
+                res -= nC3(clPts.size());
             }
         }
         cout << res << "\n";
