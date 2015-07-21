@@ -35,7 +35,7 @@ using VI = vector <int>;
 using VS = vector <string>;
 using VPI = vector<PI>;
 
-const bool dbg = false;
+const bool dbg = !true;
 typedef long long LL;
 struct A {
 
@@ -52,8 +52,8 @@ struct A {
         sort(ALL(inp));
         auto it = lower_bound(ALL(inp), start);
         int pos = it - inp.begin();
-        size_t numElementsRight = inp.size() - pos;
-        size_t numElementsLeft = pos;
+        int numElementsRight = inp.size() - pos -1;
+        int numElementsLeft = pos;
         if (dbg) {
             cout << it->first << " " << it->second << "\n";
             REP (i, inp.size()) {
@@ -66,7 +66,7 @@ struct A {
         if (numElementsLeft > numElementsRight) {
             auto leftStart = pos - numElementsRight;
             if (leftStart > 0) leftStart--;
-            auto rightEnd = inp.size() -1;
+            auto rightEnd = (int) inp.size() -1;
             if (dbg) printf("Left > right\n");
             if (dbg) printf("LeftStart = %d, RightEnd = %d\n", leftStart, rightEnd);
             for (int i = leftStart; i <= rightEnd; i++) sum += inp[i].second;
