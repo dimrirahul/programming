@@ -87,6 +87,7 @@ struct C {
     void insertIntoTableAndUpdateSum(int startPos, int len) {
         int sum = getMoves(len);
         _sum += sum;
+        if (dbg) cout << "Updating " << startPos << " with len = " << len << " sum = " << sum << "\n";
         _table[startPos] = make_pair(len, sum);
     }
 
@@ -107,7 +108,17 @@ struct C {
         }
     }
 
+    void printIterator(PM::iterator it, string msg = string()) {
+        cout << msg <<  " Pos: " << it->first << " len = " << it->second.first << " sum: " << it->second.second << "\n";
+    }
+
     void handleLeftAndRight(PM::iterator &left, PM::iterator &right, int pos, char val) {
+       
+        if (dbg) {
+            cout << "Handle left and right \n";
+            printIterator(left, "left");
+            printIterator(right, "right");
+        }
         assert(isDot(val));
         if (left->first + left->second.first + 1 == right->first) {
             _sum -= left->second.second;
@@ -138,6 +149,7 @@ struct C {
         if (canMergeWithLeft(left, pos)) {
             int nl = left->second.first + 1;
             int start = left->first;
+            _sum -= left->second.second;
             _table.erase(left);
             insertIntoTableAndUpdateSum(start, nl);
         } else {
@@ -150,6 +162,7 @@ struct C {
         if (canMergeWithRight(right, pos)) {
             int nl = right->second.first + 1;
             int start = pos;
+            _sum -= right->second.second;
             _table.erase(right);
             insertIntoTableAndUpdateSum(start, nl);
         } else {
