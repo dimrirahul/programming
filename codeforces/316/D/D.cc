@@ -1,29 +1,4 @@
-#include <algorithm>
-#include <bitset>
-#include <cctype>
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <ctime>
-#include <deque>
-#include <fstream>
-#include <functional>
-#include <iomanip>
-#include <iostream>
-#include <list>
-#include <map>
-#include <numeric>
-#include <queue>
-#include <set>
-#include <sstream>
-#include <stack>
-#include <string>
-#include <utility>
-#include <vector>
-#include <stdio.h>
-#include <unordered_map>
-#include <cassert>
+#include <bits/stdc++.h>
 
 
 #define FOR(I,A,B) for(int I = (A); I < (B); ++I)
@@ -32,77 +7,171 @@
 
 using namespace std;
 
-using PI = pair <int, int>;
 using VI = vector <int>;
-using VS = vector <string>;
 using MAP = unordered_map<int, VI>; 
-using SMap = unordered_map<int, int>;
-const bool dbg = true;
+const bool dbg = !true;
+const int MD = 22;
+const int CHARS = 26;
 
 typedef long long LL;
 const int MX_SZ = (int)5e5 + 10;
+
+struct PI {
+    int first, second, _depth;
+    int _parentByHeight[MD];
+
+    PI() {
+        first = second = -1;
+        _depth = 0;
+        memset(_parentByHeight, 0, sizeof(int) * MD);
+    }
+
+    void copyParentByHeight(const PI& other) {
+        for (int i = 0; i < MD; i++) 
+            _parentByHeight[i] = other._parentByHeight[i];
+    }
+
+    /*
+    void print() {
+        cout << "Parent = " << first << " Char = " <<  (char) ('a' + second) << 
+            " depth = " << _depth << "\n";
+        for (int i = 0; i < MD; i++) {
+            if (_parentByHeight[i] != 0) {
+                cout << "P at height " << i << " = " << _parentByHeight[i] << "\n";
+            }
+        }
+    }
+    */
+};
+
 struct C {
-    MAP _map;
+    VI _map[MX_SZ];
     PI _pInfo [MX_SZ];
+    VI _lot[MD];
+    VI _travOrder;
+    int _nodeChars[CHARS];
+
     int _n, _m;
 
     bool solve(int nodeId, int depth) {
-        SMap table;
-        solve(nodeId, depth, table);
-        return isPossible(table);
-    }
-    void solve(int nodeId, int depth, SMap& table) {
-        if (depth == 0) return;
-        if (dbg) {
-            cout << " Visiting nodeId: " << nodeId << " Depth: " << depth << "\n";
-        }
-        auto it = table.find(_pInfo[nodeId].second);
-        if ( it != table.end()) it->second++;
-        else table.emplace(_pInfo[nodeId].second, 1);
-        depth--;
-        if (dbg) {
-            auto it1 = table.find(_pInfo[nodeId].second);
-            cout << " Char = " << (char) it1->first << " has count of " << it1->second << " new Depth = " << depth << "\n";
-        }
-        if (_map.find(nodeId) == _map.end()) return;
-        for (auto& it: _map[nodeId]) solve(it, depth, table);
+        fillNodeChars(nodeId, depth);
+        //if (dbg) printNodeChars();
+        return isPossible();
     }
 
-    bool isPossible(SMap& table) {
+    void resetNodeChars() {
+        memset(_nodeChars, 0, sizeof(int) * CHARS);
+    }
+
+    /*
+    void printNodeChars() {
+        for (int i = 0; i < CHARS; i++) {
+            cout << "Char = " << (char) (i + 'a') << " COunt : " << _nodeChars[i] << "\n";
+        }
+    }
+    */
+
+    size_t findLeftStartPos(int parentNodeId, int depth) {
+        VI& nodesAtLevel = _lot[depth];
+        int parentDepth = _pInfo[parentNodeId]._depth;
+        unordered_map <int, int>pLevelNodes;
+        int pos = 0;
+        for (auto &i : _lot[parentDepth]) {
+            pLevelNodes.emplace(i, pos++);
+        }
+        int l = 0; int r = nodesAtLevel.size();
+        size_t res = -1;
+        while (l < r) {
+            int m = (l + r) >> 1;
+           // if (dbg) printf("[l=%d, r=%d, m=%d] ", l, r, m);
+            int parentId = _pInfo[nodesAtLevel[m]]._parentByHeight[parentDepth];
+
+            if (parentId == parentNodeId) {
+                r = res = m;
+            } else if (pLevelNodes[parentId] < pLevelNodes[parentNodeId]) {
+                l = m + 1;
+            } else {
+                r = m;
+            }
+        }
+        return res;
+    }
+
+    void fillNodeChars(int nodeId, int depth) {
+        int heightParent = _pInfo[nodeId]._depth;
+        if (heightParent >= depth) return;
+        size_t pos = findLeftStartPos(nodeId, depth);
+        VI& nodesAtLevel = _lot[depth];
+        while (pos < _lot[depth].size() &&
+                _pInfo[nodesAtLevel[pos]]._parentByHeight[heightParent] == nodeId) {
+            _nodeChars[_pInfo[nodesAtLevel[pos]].second]++;
+            pos++;
+        }
+    }
+
+    bool isPossible() {
         int odd = 0, even = 0, tot = 0;
-        for (auto& it: table) {
-            if ( (it.second & 1) == 1) odd++;
+        for (int it = 0; it < CHARS; it++) {
+            if ( (_nodeChars[it] & 1) == 1) odd++;
             else even++;
-            tot += it.second;
+            tot += _nodeChars[it];
         }
         if ( (tot & 1) == 0 ) return odd == 0;
         else return odd == 1;
     }
+
+    void doDfs(int nodeId = 1, int depth = 1, int parentNodeId = 0) {
+        if (parentNodeId != 0)  {
+            _pInfo[nodeId].copyParentByHeight(_pInfo[parentNodeId]);
+            _pInfo[nodeId]._parentByHeight[depth - 1] = parentNodeId;
+        }
+        _pInfo[nodeId]._depth = depth;
+        _lot[depth].push_back(nodeId);
+        //_travOrder.push_back(nodeId);
+        depth++;
+        for (auto& childNode: _map[nodeId]) {
+            doDfs(childNode, depth, nodeId);
+        }
+        //_travOrder.push_back(nodeId);
+    }
+
+    /*
+    void printLot() {
+        for (int i = 0; i < MD; i++) {
+            cout << " Level = " << i << "\n";
+            for (auto &j: _lot[i]) cout << j << " ";
+            cout << "\n";
+        }
+    }
+
+    void printPInfo() {
+        for (int i = 1; i <= 20; i++) {
+            cout << " NodeId = " << i << "\n";
+            _pInfo[i].print();
+        }
+    }
+    */
     void start() {
-        REP (i, MX_SZ) _pInfo[i].first = _pInfo[i].second = -1;
         cin >> _n >> _m;
         REP (i, _n-1) {
             int t;
             cin >> t;
             _pInfo[i+2].first = t;
-            auto it = _map.find(t);
-            if (it == _map.end()) {
-                VI v;
-                v.push_back(i+2);
-                _map.emplace(t, v);
-            } else {
-                it->second.push_back(i+2);
-            }
+            _map[t].push_back(i+2);
         }
         REP (i, _n) {
             char t;
             cin >> t;
-            _pInfo[i+1].second = t;
+            _pInfo[i+1].second = ((int)t - 'a');
         }
+        doDfs();
+      //  if (dbg) printLot();
+      //  if (dbg) printPInfo();
         REP (i, _m) {
+            resetNodeChars();
             int node, depth;
             cin >> node >> depth;
-            cout << (solve(node, depth) ? "Yes": "No") << "\n";
+            cout << (solve(node, depth) ? "Yes": "No") << endl;
         }
     }    
 };
