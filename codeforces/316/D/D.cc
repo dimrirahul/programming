@@ -9,7 +9,7 @@ using namespace std;
 
 using VI = vector <int>;
 using MAP = unordered_map<int, VI>; 
-const bool dbg = !true;
+const bool dbg = true;
 const int MD = 22;
 const int CHARS = 26;
 
@@ -19,11 +19,13 @@ const int MX_SZ = (int)5e5 + 10;
 struct PI {
     int first, second, _depth;
     int _parentByHeight[MD];
+    int _sigma[CHARS];
 
     PI() {
         first = second = -1;
         _depth = 0;
         memset(_parentByHeight, 0, sizeof(int) * MD);
+        memset(_sigma, 0, sizeof(int) * CHARS);
     }
 
     void copyParentByHeight(const PI& other) {
@@ -31,7 +33,12 @@ struct PI {
             _parentByHeight[i] = other._parentByHeight[i];
     }
 
-    /*
+    void copySigma(const int *sigma) {
+        for (int i = 0; i < CHARS; i++) {
+            _sigma[i] = sigma[i];
+        }
+    }
+
     void print() {
         cout << "Parent = " << first << " Char = " <<  (char) ('a' + second) << 
             " depth = " << _depth << "\n";
@@ -40,8 +47,13 @@ struct PI {
                 cout << "P at height " << i << " = " << _parentByHeight[i] << "\n";
             }
         }
+
+        for (int i = 0; i < CHARS; i++) {
+            if (_sigma[i] != 0) {
+                cout << "Char = " << (char)('a' + i) << " has count " << _sigma[i] << "\n";
+            }
+        }
     }
-    */
 };
 
 struct C {
@@ -71,7 +83,7 @@ struct C {
     }
     */
 
-    size_t findLeftStartPos(int parentNodeId, int depth) {
+    size_t findLeftStartPos(int parentNodeId, int depth, bool isRight = false) {
         VI& nodesAtLevel = _lot[depth];
         int parentDepth = _pInfo[parentNodeId]._depth;
         unordered_map <int, int>pLevelNodes;
@@ -83,11 +95,16 @@ struct C {
         size_t res = -1;
         while (l < r) {
             int m = (l + r) >> 1;
-           // if (dbg) printf("[l=%d, r=%d, m=%d] ", l, r, m);
+            // if (dbg) printf("[l=%d, r=%d, m=%d] ", l, r, m);
             int parentId = _pInfo[nodesAtLevel[m]]._parentByHeight[parentDepth];
 
             if (parentId == parentNodeId) {
-                r = res = m;
+                if (!isRight) {
+                    r = res = m;
+                } else {
+                    l = res = m;
+                    l++;
+                }
             } else if (pLevelNodes[parentId] < pLevelNodes[parentNodeId]) {
                 l = m + 1;
             } else {
@@ -97,16 +114,31 @@ struct C {
         return res;
     }
 
+    size_t findRightStartPos(int parentNodeId, int depth) {
+        return findLeftStartPos(parentNodeId, depth, true);
+    }
+
     void fillNodeChars(int nodeId, int depth) {
         int heightParent = _pInfo[nodeId]._depth;
         if (heightParent >= depth) return;
         size_t pos = findLeftStartPos(nodeId, depth);
+        size_t posR = findRightStartPos(nodeId, depth);
         VI& nodesAtLevel = _lot[depth];
-        while (pos < _lot[depth].size() &&
-                _pInfo[nodesAtLevel[pos]]._parentByHeight[heightParent] == nodeId) {
-            _nodeChars[_pInfo[nodesAtLevel[pos]].second]++;
-            pos++;
+
+        PI& leftNode = _pInfo[nodesAtLevel[pos]];
+        PI& rightNode = _pInfo[nodesAtLevel[posR]];
+        for (int i = 0; i < CHARS; i++) {
+            _nodeChars[i] = rightNode._sigma[i] - leftNode._sigma[i];
+            /*
+            if (dbg) {
+                cout << "Left = \n";
+                leftNode.print();
+                cout << "Right = \n";
+                rightNode.print();
+            }
+            */
         }
+        _nodeChars[leftNode.second]++;
     }
 
     bool isPossible() {
@@ -133,6 +165,18 @@ struct C {
             doDfs(childNode, depth, nodeId);
         }
         //_travOrder.push_back(nodeId);
+    }
+
+    void memoize() {
+        int memz[CHARS] ;
+        for (int i = 0; i < MD; i++) {
+            memset(memz, 0, sizeof(int) * CHARS);
+            for (size_t j = 0; j < _lot[i].size(); j++) {
+                int &nodeId = _lot[i][j];
+                memz[_pInfo[nodeId].second]++;
+                _pInfo[nodeId].copySigma(memz);
+            }
+        }
     }
 
     /*
@@ -165,6 +209,7 @@ struct C {
             _pInfo[i+1].second = ((int)t - 'a');
         }
         doDfs();
+        memoize();
       //  if (dbg) printLot();
       //  if (dbg) printPInfo();
         REP (i, _m) {
