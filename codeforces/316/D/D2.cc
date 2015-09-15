@@ -21,21 +21,11 @@ struct PI {
     PI(int f, int s, int t): _f(f), _s(s), _t(t) { _beg = _end = -1;}
     PI(): _f(0), _s(0), _t(0) {}
 };
-struct MD {
-    int _cnt[CHARS];
-    MD() { memset(_cnt, 0, sizeof(int) * CHARS); }
-
-};
-struct LI {
-    unordered_map<int, int> _posById;
-    vector<MD> _mdv;
-};
 
 struct C {
     int _n, _m;
     VI _lot[MAX_DEPTH];
     MAP _cById;
-    LI _li[MAX_DEPTH];
     PI _pi[MX_SZ];
     int _nodeChars[CHARS];
     map<pair<int, int>, bool> _qCache;
@@ -59,7 +49,6 @@ struct C {
             _pi[i+1]._s = ((int)t - 'a');
         }
         doDfs();
-        memoize();
         for (int i = 0; i < _m; i++) {
             resetNodeChars();
             int node, depth;
@@ -78,22 +67,6 @@ struct C {
         pos++;
         _pi[nodeId]._end = pos;
         return pos;
-    }
-
-    void memoize() {
-        int d = -1;
-        for (auto &vi: _lot) {
-            d++;
-            int pos = 0;
-            for (auto &i: vi) {
-                _li[d]._posById.emplace(i, pos++);
-                MD md;
-                vector <MD> &mdv = _li[d]._mdv;
-                if (mdv.size() != 0) md = mdv[mdv.size() - 1];
-                md._cnt[_pi[i]._s]++;
-                mdv.push_back(md);
-            }
-        }
     }
 
     bool hasAncestor(int childId, int parentId) {
@@ -129,7 +102,7 @@ struct C {
                 r = m;
             }
         }
-        return nodes[res];
+        return res;
     }
 
     bool solve(int node, int depth) {
@@ -141,15 +114,10 @@ struct C {
         int l = findNode(node, depth);
         int r = findNode(node, depth, false);
         if (l == r) return true;
-        LI &lid = _li[depth];
-        MD& leftData = lid._mdv[lid._posById[l]];
-        MD& rightData = lid._mdv[lid._posById[r]];
-        
-        for (int i = 0; i < CHARS; i++) {
-            _nodeChars[i] = rightData._cnt[i] - leftData._cnt[i];
+        for (int i =l; i <= r; i++) {
+            _nodeChars[_pi[_lot[depth][i]]._s]++;
         }
 
-        _nodeChars[_pi[l]._s]++;
         bool res = isPossible();
         _qCache.emplace(query, res);
         return res;

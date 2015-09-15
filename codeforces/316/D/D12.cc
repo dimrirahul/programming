@@ -10,25 +10,42 @@ using namespace std;
 #define PB push_back
 using VI = vector <int>;
 using MAP = unordered_map<int, VI>;
+const bool dbg = !true;
 const int MAX_DEPTH = 22;
 const int CHARS = 26;
-const bool dbg = !true;
 
 const int MX_SZ = (int)5e5 + 10;
 
 struct PI {
-    int _f, _s, _t, _beg, _end; //parent, char, depth, begPos, endPos
-    PI(int f, int s, int t): _f(f), _s(s), _t(t) { _beg = _end = -1;}
+    int _f, _s, _t; //parent, char, depth
+    PI(int f, int s, int t): _f(f), _s(s), _t(t) {}
     PI(): _f(0), _s(0), _t(0) {}
+    void print() {
+        printf("PI [parent=%d, char=%c, depth=%d]\n", _f, _s + 'a', _t);
+    }
 };
 struct MD {
     int _cnt[CHARS];
     MD() { memset(_cnt, 0, sizeof(int) * CHARS); }
+    void print() {
+        cout << "Chars = [";
+        for (int i = 0; i < CHARS; i++) cout << _cnt[i] << ",";
+        cout << "]\n";
+    }
 
 };
 struct LI {
     unordered_map<int, int> _posById;
     vector<MD> _mdv;
+    void print() {
+        cout << "MAP = [ID, POS] " << "\n";
+        for (auto i : _posById) {
+            cout << "[" << i.first << "," << i.second << "] ";
+        }
+        for (auto& i: _mdv) {
+            i.print();
+        }
+    }
 };
 
 struct C {
@@ -58,8 +75,11 @@ struct C {
             cin >> t;
             _pi[i+1]._s = ((int)t - 'a');
         }
-        doDfs();
+        doBfs();
         memoize();
+        if (dbg) {
+            for (int i = 1; i <= _n; i++)  _pi[i].print();
+        }
         for (int i = 0; i < _m; i++) {
             resetNodeChars();
             int node, depth;
@@ -68,16 +88,19 @@ struct C {
         }
     }    
 
-    int doDfs(int nodeId = 1, int depth = 1, int pos = 0) {
-        _pi[nodeId]._t = depth;
-        _pi[nodeId]._beg = pos;
-        _lot[depth].push_back(nodeId);
-        for (auto &i: _cById[nodeId]) {
-            pos = doDfs(i, depth+1, pos+1); 
+    void doBfs() {
+        using PAIR = pair <int, PI>;
+        queue<PAIR> q;
+        q.push(MP(1, _pi[1]));
+        while (!q.empty()) {
+            PAIR p = q.front();
+            q.pop();
+            _lot[p.second._t].PB(p.first);
+            for (auto &i: _cById[p.first]) {
+                _pi[i]._t = p.second._t + 1;
+                q.push(MP(i, _pi[i]));
+            }
         }
-        pos++;
-        _pi[nodeId]._end = pos;
-        return pos;
     }
 
     void memoize() {
@@ -96,43 +119,45 @@ struct C {
         }
     }
 
-    bool hasAncestor(int childId, int parentId) {
-        if (dbg) cout << " Has Ancestor called with " << childId << " " << parentId << "\n";
-        if (childId <= parentId) return false;
-        bool res =  _pi[childId]._beg > _pi[parentId]._beg &&
-            _pi[childId]._end < _pi[parentId]._end;
-        if (dbg) cout << "Has Ancestor = " << res << " for " << childId << " " << parentId << "\n";
-        return res;
-    }
-
-    bool hasAncestorToLeft(int childId, int parentId) {
-        bool res = _pi[childId]._end < _pi[parentId]._beg;
-        if (dbg) cout << "Has Ancestor to left = " << res << " for " << childId << " " << parentId << "\n";
-        return res;
+    int getParent(int nodeId, int d) {
+        while (d > 0) {
+            nodeId = _pi[nodeId]._f;
+            d--;
+        }
+        return nodeId;
     }
 
     int findNode(int v, int d, bool isLeft = true) {
         VI& nodes = _lot[d];
+        int pDepth = _pi[v]._t;
+        unordered_map<int, int> &mp = _li[pDepth]._posById;
         int l = 0, r = nodes.size(), res = -1;
         while (l < r) {
             int m = (l+r) / 2;
-            if (hasAncestor(nodes[m], v)) {
+            int pId = getParent(nodes[m], d - pDepth);
+            if (pId == v) {
                 if (isLeft) {
                     res = r = m;
                 } else {
                     res = m;
                     l = m + 1;
                 }
-            } else if (hasAncestorToLeft(nodes[m], v)) {
+            } else if (mp[pId] < mp[v]) {
                 l = m + 1;
             } else {
                 r = m;
             }
         }
+        if (dbg) cout << "Res ============ " << res << "\n";
         return nodes[res];
     }
 
     bool solve(int node, int depth) {
+        if (dbg) {
+            cout << "SOlve ------ nodeId = " << node << "\n";
+            _pi[node].print();
+            cout << "---------";
+        }
         pair<int, int> query = MP(node, depth);
         auto iter = _qCache.find(query);
         if (iter != _qCache.end()) return iter->second;
@@ -145,8 +170,24 @@ struct C {
         MD& leftData = lid._mdv[lid._posById[l]];
         MD& rightData = lid._mdv[lid._posById[r]];
         
+        if (dbg) {
+            cout << "LeftNodeId = " << l << " rightnodeId = " << r << 
+                " Left Pos = " << lid._posById[l] <<
+                " Right Pos = " << lid._posById[r] << "\n";
+            cout << " Left MD = \n";
+            leftData.print();
+
+            cout << "Right MD = \n";
+            rightData.print();
+        }
+
         for (int i = 0; i < CHARS; i++) {
             _nodeChars[i] = rightData._cnt[i] - leftData._cnt[i];
+        }
+
+        if (dbg) {
+            cout << " Mystery = ";
+            _pi[l].print();
         }
 
         _nodeChars[_pi[l]._s]++;
