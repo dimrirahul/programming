@@ -1,0 +1,229 @@
+#include <iostream>
+#include <memory>
+#include <algorithm>
+#include <map>
+#include <vector>
+#include <queue>
+#include <sstream>
+#include <set>
+
+
+using namespace std;
+
+struct Node;
+struct LeafNode;
+struct BranchNode;
+
+using NodePtr = Node*;
+using LeafNodePtr = LeafNode*;
+using BranchNodePtr = BranchNode*;
+
+using UP = unique_ptr<Node>;
+
+const bool dbg = true;
+const char EOF_S1 = '#';
+const char EOF_S2 = '$';
+
+struct DeepestNode {
+    DeepestNode() : _depth(0), node1(NULL), node2(NULL) {}
+    int _depth;
+    NodePtr node1;
+    NodePtr node2;
+
+    bool operator<(const DeepestNode& other) const {
+        return _depth < other._depth;
+    }
+
+    bool operator>(const DeepestNode& other) const {
+        return _depth > other._depth;
+    }
+
+    bool hasEqualDepth(const DeepestNode& other) const {
+        return _depth == other._depth;
+    }
+
+    void update(const DeepestNode& other) {
+        if (!node1) node1 = other.node1;
+        else node2 = other.node1;
+    }
+
+    void increaseDepth() {
+        _depth++;
+    }
+
+    void print();
+};
+
+struct Node {
+    virtual void addLeafNode(LeafNodePtr leafNodePtr) = 0;
+    virtual void addLeafNode(LeafNodePtr leafNodePtr, size_t pos) = 0;
+    virtual BranchNodePtr combine(LeafNodePtr leafNode, size_t pos) = 0;
+    virtual vector<NodePtr> getChildren() = 0;
+    virtual void printNode() = 0;
+    virtual DeepestNode getDeepestNode() = 0;
+    void doBfs() {
+        queue<NodePtr> nodeQ;
+        set<NodePtr> visited;
+        nodeQ.push(this);
+        while (!nodeQ.empty()) {
+            NodePtr node = nodeQ.front();
+            nodeQ.pop();
+            if (visited.count(node) != 0) continue;
+            visited.insert(node);
+            node->printNode();
+            vector<NodePtr> children = node->getChildren();
+            for (auto it: children) {
+                nodeQ.push(it);
+            }
+        }
+    }
+    size_t getPrefixLength(const string& str1, const string& str2) const  {
+        size_t pos = 0;
+        for (; pos < str1.size() && pos < str2.size() && str1[pos] == str2[pos]; pos++);
+        return pos;
+    }
+    virtual ~Node() {}
+    virtual void setParent(NodePtr parent) { _parent = parent; }
+    NodePtr _parent;
+    Node() : _parent(NULL) {}
+};
+
+struct LeafNode : public Node {
+    LeafNode(const string& str, size_t startPos) : _baseString(str), _startPos(startPos) {}
+    void addLeafNode(LeafNodePtr leafNodePtr) {} //Do nothing.
+    void addLeafNode(LeafNodePtr leafNodePtr, size_t pos) {} //Do nothing.
+    size_t size() { return _baseString.size() - _startPos; }
+    int getElement(size_t pos) {
+        return _baseString[_startPos + pos];
+    }
+
+    BranchNodePtr combine(LeafNodePtr leafNode, size_t pos);
+
+    string getString() {
+        return _baseString.substr(_startPos);
+    }
+
+    virtual vector<NodePtr> getChildren() { return vector<NodePtr>(); }
+    virtual void printNode() { cout << "NodeType: LEAF " << getString() << "\n"; }
+    virtual DeepestNode getDeepestNode() {
+        DeepestNode node;
+        node.node1 = this;
+        return node;
+    }
+
+    const string& _baseString;
+    const size_t _startPos;
+};
+
+struct BranchNode : public Node {
+    BranchNode(size_t bi) : _branchIndex(bi) {}
+
+    void addLeafNode(LeafNodePtr leafNodePtr) {
+        addLeafNode(leafNodePtr, 0);
+    };
+
+    bool leafNodeHasSamePrefix(LeafNodePtr leafNodePtr, size_t pos) {
+        string content = leafNodePtr->getString();
+        if (content.size() < pos) return false;
+        string contentFromPos = content.substr(pos);
+        if (contentFromPos.size() < _segment.size()) return false;
+        return contentFromPos.substr(0, _segment.size()) == _segment;
+    }
+
+    void addLeafNode(LeafNodePtr leafNodePtr, size_t pos) {
+        if (leafNodeHasSamePrefix(leafNodePtr, pos)) {
+        } else {
+            createNewBranchNode(leafNodePtr, pos, this);
+        }
+    }
+
+
+    void insertPtr(int key, NodePtr node) {
+        _map.emplace(make_pair(key, move(UP(node))));
+        node->setParent(this);
+    }
+
+    BranchNodePtr combine(LeafNodePtr leafNodePtr, size_t pos) {
+        addLeafNode(leafNodePtr, pos + 1);
+        return this;
+    }
+
+    virtual vector<NodePtr> getChildren() {
+        vector<NodePtr> ret;
+        for (auto& it: _map) {
+            ret.push_back(it.second.get());
+        }
+        return ret;
+    }
+
+    virtual void printNode() {
+        stringstream ss;
+        ss << "NodeType: BRANCH, BRANCH_INDEX: " << _branchIndex << " Segment : " << _segment << "\n";
+        ss << "Keys: ";
+        for (auto& it : _map) {
+            ss << (char)it.first << " ";
+        }
+        ss << "\n";
+        cout << ss.str();
+    }
+
+    virtual DeepestNode getDeepestNode() {
+        DeepestNode max;
+        for (auto& it: _map) {
+            DeepestNode deepNode = it.second->getDeepestNode();
+            if (deepNode < max) continue;
+            if (deepNode > max) max = deepNode;
+            else max.update(deepNode);
+        }
+        max.increaseDepth();
+        return max;
+    }
+
+
+    map<int, UP> _map;
+    size_t _branchIndex;
+    string _segment;
+};
+
+
+BranchNodePtr LeafNode::combine(LeafNodePtr other, size_t pos) {
+    string otherContent = other->getString();
+    string myContent = getString();
+    for (; pos < otherContent.size() && pos < myContent.size() && otherContent[pos] == myContent[pos]; pos++);
+    BranchNodePtr branchNodePtr = new BranchNode(pos);
+    branchNodePtr->addLeafNode(other, pos);
+    branchNodePtr->addLeafNode(this, pos);
+    branchNodePtr->_segment = myContent.substr(0, pos);
+    return branchNodePtr;
+}
+
+void DeepestNode::print() {
+    cout << "DEEPEST NODES: depth:" << _depth << "\n";
+    if (node1) node1->printNode();
+    if (node2) node2->printNode();
+}
+
+int main() {
+    string s1;
+    string s2;
+    cin >> s1 >> s2;
+    s1 += EOF_S1;
+    s2 += EOF_S2;
+    string s3 = s1 + s2;
+    UP up(new BranchNode(0));
+    NodePtr root = up.get();
+    for (size_t pos = 0; pos < s3.size(); pos++) {
+        LeafNodePtr leafNodePtr = new LeafNode(s3, pos);
+        root->addLeafNode(leafNodePtr);
+        if (dbg)  {
+            cout << "After adding item : " << pos << "\n";
+            root->doBfs();
+            cout << "======\n";
+        }
+    }
+    if (dbg) root->doBfs();
+    DeepestNode deepNodes = root->getDeepestNode();
+    deepNodes.print();
+
+    return 0;
+}
