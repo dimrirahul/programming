@@ -13,24 +13,23 @@ using LL = long long;
 using VL = vector<LL>;
 using PI = pair<int, int>;
 
+struct Rect {
+    Rect(int inpR1, int inpC1, int inpR2, int inpC2) : r1(inpR1), c1(inpC1), r2(inpR2), c2(inpC2) {}
+    Rect() : r1(0), c1(0), r2(0), c2(0) {}
+
+    int r1, c1, r2, c2;
+};
+
 const bool dbg = !true;
 PI matrix[MAX_SIZE][MAX_SIZE]; //first is garlandId, second is position in array.
 struct Garland {
-    Garland(int inpId): x1(MAX_SIZE), y1(MAX_SIZE), x2(0), y2(0), sum(0), lit(true), id(inpId)  {}
+    Garland(int inpId): sum(0), lit(true), id(inpId)  {}
 
     void addCell(int r, int c, int v, int insertPos) {
         sum += v;
         cumSum.push_back(sum);
         matrix[r][c] = make_pair(id, insertPos);
         ptsOnBoard.push_back(make_pair(r, c));
-        x1 = min(x1, r);
-        x2 = max(x2, r);
-        y1 = min(y1, c);
-        y2 = max(y2, c);
-    }
-
-    bool isCompletelyInside(int r1, int c1, int r2, int c2) {
-        return r1 <= x1 && c1 <= y1 && r2 >= x2 && c2 >= y2;
     }
 
     void readBulb(int insertPos) {
@@ -55,62 +54,50 @@ struct Garland {
         return neighborIdx;
     }
 
-    bool isCrossingHorizontalLine(int r, int c, int r1, int c1, int r2, int c2) {
+    bool isCrossingHorizontalLine(int r, int c, Rect& rect) {
         if ( matrix[r][c].first != id) return false;
         vector<size_t> v = getNeighbors(r, c);
         for (auto it : v) {
             PI &p = ptsOnBoard[it];
-            if (p.second == c && ( p.first < r1 || p.first > r2)) return true;
+            if (p.second == c && ( p.first < rect.r1 || p.first > rect.r2)) return true;
         }
         return false;
     }
 
-    bool isCrossingVerticalLine(int r, int c, int r1, int c1, int r2, int c2) {
+    bool isCrossingVerticalLine(int r, int c, Rect& rect) {
         if ( matrix[r][c].first != id) return false;
         vector<size_t> v = getNeighbors(r, c);
         for (auto it : v) {
             PI &p = ptsOnBoard[it];
-            if (p.first == r && ( p.second < c1 || p.second > c2)) return true;
+            if (p.first == r && ( p.second < rect.c1 || p.second > rect.c2)) return true;
         }
         return false;
     }
 
-    LL getCumulativeValue(int r1, int c1, int r2, int c2) {
-        if (!lit) return 0;
-        if (isCompletelyInside(r1, c1, r2, c2)) return sum;
-        LL res = 0;
 
-        return res;
-    }
-
-
-    void makeCut(int r1, int c1, int r2, int c2) {
-
-        vector<int> v1 = {r1, r2};
-        vector<int> v2 = {c1, c2};
-
-        for (int i = r1; i <= r2; i++) {
+    void makeCut(Rect& rect) {
+        vector<int> v1 = {rect.r1, rect.r2};
+        vector<int> v2 = {rect.c1, rect.c2};
+        for (int i = rect.r1; i <= rect.r2; i++) {
             for (auto j : v2) {
-                if (isCrossingVerticalLine(i, j, r1, c1, r2, c2)) {
+                if (isCrossingVerticalLine(i, j, rect)) {
                     if (dbg) cout << "For id=" << id << " co-ordinates [" << i << ", " << j << "] has horizontal neighbor\n";
-                    //cutPoints.insert(matrix[i][j].second);
                     cutPoints.push_back(matrix[i][j].second);
                 }
             }
         }
 
         for (auto i : v1) {
-            for (int j = c1; j <= c2; j++) {
-                if (isCrossingHorizontalLine(i, j,  r1, c1, r2, c2)) {
+            for (int j = rect.c1; j <= rect.c2; j++) {
+                if (isCrossingHorizontalLine(i, j, rect)) {
                     if (dbg) cout << "For id=" << id << " co-ordinates [" << i << ", " << j << "] has vertical neighbor\n";
-                    //cutPoints.insert(matrix[i][j].second);
                     cutPoints.push_back(matrix[i][j].second);
                 }
             }
         }
     }
 
-    bool isPointInside(int r, int c, int r1, int c1, int r2, int c2) { return r >= r1 && r <= r2 && c >= c1 && c <= c2;}
+    bool isPointInside(int r, int c, Rect& rect) { return r >= rect.r1 && r <= rect.r2 && c >= rect.c1 && c <= rect.c2;}
 
     LL getSum(LL initValue, bool substract) {
         LL res = initValue;
@@ -133,11 +120,11 @@ struct Garland {
         return res;
     }
 
-    LL getSum(int r1, int c1, int r2, int c2) {
+    LL getSum(Rect& rect) {
         LL res = 0;
         if (!lit) return res;
         auto it = ptsOnBoard.rbegin();
-        bool tailIsInside = isPointInside(it->first, it->second, r1, c1, r2, c2);
+        bool tailIsInside = isPointInside(it->first, it->second, rect);
         if (tailIsInside) {
             res = getSum(sum, true);
         } else {
@@ -154,7 +141,6 @@ struct Garland {
         cout << "\n";
     }
 
-    int x1, y1, x2, y2;
     LL sum;
     VL cumSum;
     vector<PI> ptsOnBoard;
@@ -174,13 +160,13 @@ struct Query {
             scanf("%d\n", &gId);
             switchQuery = true;
         } else {
-            scanf("%d %d %d %d\n", &x1, &y1, &x2, &y2);
+            scanf("%d %d %d %d\n", &rect.r1, &rect.c1, &rect.r2, &rect.c2);
         }
     }
 
     int gId;
     bool switchQuery;
-    int x1, y1, x2, y2;
+    Rect rect;
 };
 
 using VG = vector<Garland>;
@@ -234,9 +220,9 @@ int main() {
         } else {
             LL sum = 0;
             for (int i = 1; i < garlandVector.size(); i++) {
-                garlandVector[i].makeCut(q.x1, q.y1, q.x2, q.y2);
+                garlandVector[i].makeCut(q.rect);
                 if(dbg) garlandVector[i].printCutPoints();
-                LL partSum = garlandVector[i].getSum(q.x1, q.y1, q.x2, q.y2);
+                LL partSum = garlandVector[i].getSum(q.rect);
                 if (dbg) cout << "Garland=" << i << " has sum=" << partSum << "\n";
                 sum += partSum;
             }

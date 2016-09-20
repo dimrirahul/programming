@@ -65,7 +65,7 @@ struct A {
             else vi.push_back(1);
         }
         cout << pp(vi) << "\n";
-    }    
+    }
 };
 
 A t;
