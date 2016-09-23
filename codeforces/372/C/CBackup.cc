@@ -12,17 +12,22 @@ using MI = map<int, int>;
 
 const bool dbg = !true;
 struct A {
-
   LL getSq(int p) {
     LL res = p;
     return res * res;
   }
 
   LL getCount(int currLevel, LL &currVal) {
+    if (dbg)
+      cout << "getCount: currVal=" << currVal << " currLevel=" << currLevel
+           << "\n";
     int nextLevel = currLevel + 1;
     LL moves = (getSq(nextLevel) * currLevel) - (currVal / currLevel);
     currVal = nextLevel;
     currVal *= currLevel;
+    if (dbg)
+      cout << "getCount: newCurrVal=" << currVal << " Moves required=" << moves
+           << "\n";
     return moves;
   }
 
