@@ -13,6 +13,7 @@ using MVI = unordered_map<int, VI>;
 #define FORN(I,N) for (int (I) = 0; (I) < (N); (I)++)
 #define ALL(X) (X).begin(), (X).end()
 
+const bool dbg = !true;
 
 void addEdge(MVI& adjList, int v1, int v2) {
     auto it = adjList.find(v1);
@@ -29,35 +30,49 @@ void populateAdjList(int numRoads, MVI& adjList) {
         int v1, v2;
         cin >> v1 >> v2;
         addEdge(adjList, v1, v2);
+        addEdge(adjList, v2, v1);
     }
 }
 
-int countConnectedComponents(MVI& adjList, int numCities) {
-    int res = 0;
+VI countConnectedComponents(MVI& adjList, int numCities) {
+    VI res;
     set<int> visited;
     stack<int> stk;
     for (int i = 1; i <= numCities; i++) {
         if (visited.count(i) > 0) continue;
-        pair<int, int> citiesAndEdgesTuple {0, 0};
+        int countCities = 0;
         stk.push(i);
-        citiesAndEdgesTuple.first++;
         while (!stk.empty()) {
             int v = stk.top();
             stk.pop();
+            if (visited.count(v) > 0) continue;
+            countCities++;
             visited.insert(v);
-            if (visited.count(v) > 0 || adjList.count(v) == 0) continue;
             const VI& neighbors = adjList[v];
-            for_each(ALL(neighbors), [&stk, &citiesAndEdgesTuple](const int& t1){stk.push(t1); citiesAndEdgesTuple});
+            for_each(ALL(neighbors),
+                    [&stk](const int& t1){
+                        stk.push(t1);
+                    }
+            );
+
         }
+        res.push_back(countCities);
+
     }
     return res;
 }
 
-int getResult(int numCities, int numRoads, int cl, int cr) {
+long long getResult(int numCities, int numRoads, int cl, int cr) {
     MVI adjList;
     populateAdjList(numRoads, adjList);
-    int cc = countConnectedComponents(adjList, numCities);
-    return cl + (cc - 1) * (min(cl, cr));
+    VI vi = countConnectedComponents(adjList, numCities);
+    long long res = 0;
+    for (auto it : vi) {
+        if (dbg) cout << it << ',';
+        res += cl + (it -1) * min(cl, cr);
+    }
+    if (dbg) cout << "\n";
+    return res;
 }
 int main() {
     int t;
